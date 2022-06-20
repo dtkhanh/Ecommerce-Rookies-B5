@@ -1,13 +1,15 @@
 package com.example.ecommerce_rookies.Models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="OrderDetails")
 public class OrderDetails {
 
@@ -24,17 +26,15 @@ public class OrderDetails {
     @ManyToOne
     @JoinColumn(name="idOrders")
     private Orders orders;
-
+//
     @OneToOne
-    @JoinColumn(name = "idProduct" , referencedColumnName = "id")
+    @JoinColumn(name = "product_id" )
     private Product product;
-
-    public OrderDetails(){}
-
-    public OrderDetails(float price, int number, Orders orders, Product product) {
-        this.price = price;
-        this.number = number;
-        this.orders = orders;
-        this.product = product;
-    }
+//
+//    public OrderDetails(float price, int number, Orders orders, Product product) {
+//        this.price = price;
+//        this.number = number;
+//        this.orders = orders;
+//        this.product = product;
+//    }
 }

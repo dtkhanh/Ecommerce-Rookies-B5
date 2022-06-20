@@ -1,7 +1,6 @@
 package com.example.ecommerce_rookies.Models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,25 +9,24 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Orders")
 public class Orders {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name="total")
     private float total;
+
+    @Column(name="oderdate")
     private LocalDate orderdate;
 
-    @ManyToOne
-    @JoinColumn(name = "idUser")
-    private User users;
+    @OneToOne
+    @JoinColumn(name = "order_idUser")
+    private Account account;
 
-    @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL)
-    private Set<OrderDetails> orderDetails;
-
-    public Orders(){}
-
-    public Orders(float total, LocalDate orderdate, User users, Set<OrderDetails> orderDetails) {
-        this.total = total;
-        this.orderdate = orderdate;
-        this.users = users;
-        this.orderDetails = orderDetails;
-    }
 }

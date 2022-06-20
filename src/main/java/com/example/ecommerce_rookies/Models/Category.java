@@ -1,7 +1,6 @@
 package com.example.ecommerce_rookies.Models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -9,6 +8,9 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Category")
 public class Category {
 
@@ -22,7 +24,4 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<Product> products;
 
-    public Category() {}
-    public Category(String categoryname) {
-        this.categoryname = categoryname;}
 }

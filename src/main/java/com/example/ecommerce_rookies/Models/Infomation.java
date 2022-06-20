@@ -1,13 +1,15 @@
 package com.example.ecommerce_rookies.Models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Information")
 
 
@@ -28,19 +30,10 @@ public class Infomation {
     @Column(name="phonenumber")
     private String phone;
 
-    @OneToOne(mappedBy = "idUser")
-    private User user;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Account account;
 
-    public Infomation(String email ,String address, String avatar, String phone, User user){
-        this.address=address;
-        this.avatar=avatar;
-        this.email=email;
-        this.phone=phone;
-        this.user=user;
-
-    }
-
-    public Infomation(){}
 
 
 }

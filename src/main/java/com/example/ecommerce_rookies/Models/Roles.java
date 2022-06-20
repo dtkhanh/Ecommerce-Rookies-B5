@@ -1,7 +1,6 @@
 package com.example.ecommerce_rookies.Models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -9,6 +8,9 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="Roles")
 public class Roles {
 
@@ -20,6 +22,6 @@ public class Roles {
     private String rolename;
 
     @OneToMany(mappedBy = "roles",cascade = CascadeType.ALL)
-    private Set<User> users;
+    private Set<Account> users;
 
 }

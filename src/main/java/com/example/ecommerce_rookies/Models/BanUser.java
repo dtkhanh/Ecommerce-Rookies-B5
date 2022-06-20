@@ -1,8 +1,7 @@
 package com.example.ecommerce_rookies.Models;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,6 +9,9 @@ import java.time.LocalDate;
 @Entity
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="BanUser")
 public class BanUser {
 
@@ -17,17 +19,12 @@ public class BanUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
     @ManyToOne
-    @JoinColumn(name="idUser")
-    private User user;
+    @JoinColumn(name="user_id",nullable = false)
+    private Account account;
 
     @Column(name="time")
     private LocalDate date;
 
-    public BanUser(){}
-
-    public BanUser(User user, LocalDate date) {
-        this.user = user;
-        this.date = date;
-    }
 }

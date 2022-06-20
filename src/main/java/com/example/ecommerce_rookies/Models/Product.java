@@ -2,8 +2,7 @@ package com.example.ecommerce_rookies.Models;
 
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +11,9 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Product")
 public class Product {
 
@@ -29,6 +31,10 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category",nullable = false)
     private Category category;
+
+    @OneToMany(mappedBy = "comment")
+    private Set<ProductComment> productComments;
+
     @Column(name = "description")
     private String description;
 
@@ -37,26 +43,7 @@ public class Product {
     @Column(name = "create_date")
     private LocalDate updatedate;
 
-    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "image")
     private Set<Gallery> gallery;
 
-    @OneToMany(mappedBy = "productRate", cascade = CascadeType.ALL)
-    private Set<ProductComment> productComments;
-
-
-
-
-    public Product(){ }
-
-    public Product(String title, float price, String imageproduct, Category category, String description, LocalDate createdate, LocalDate updatedate, Set<Gallery> gallery, Set<ProductComment> productComments) {
-        this.title = title;
-        this.price = price;
-        this.imageproduct = imageproduct;
-        this.category = category;
-        this.description = description;
-        this.createdate = createdate;
-        this.updatedate = updatedate;
-        this.gallery = gallery;
-        this.productComments = productComments;
-    }
 }
