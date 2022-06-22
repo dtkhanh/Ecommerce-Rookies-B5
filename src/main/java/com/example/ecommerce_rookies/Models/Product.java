@@ -46,4 +46,7 @@ public class Product {
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "image")
     private Set<Gallery> gallery;
 
+    @OneToMany(mappedBy = "product")
+    private Set<OderProduct> oderProducts;
+
 }

@@ -1,9 +1,9 @@
 package com.example.ecommerce_rookies.Models;
 
+
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -11,18 +11,18 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Category")
-public class Category {
+@Table(name = "orderProduct")
+public class OderProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "category_name")
-    private String categoryname;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private Set<Product> products;
-
-
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Orders orders;
 }
