@@ -18,13 +18,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
-
     @Autowired
     private CategoryService categoryService;
 
-    private ProductService productService;
-
-    @RequestMapping(value = "/insert" , method = RequestMethod.POST)
+    @RequestMapping(value = "" , method = RequestMethod.POST)
     public Category createCategory(@RequestBody Category ctg){
         return categoryService.createCategory(ctg);
     }
@@ -32,11 +29,16 @@ public class CategoryController {
     public List<Category> readEmployees() {
         return categoryService.getCategory();
     }
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public Category updateProduct(@PathVariable Long id,@RequestBody Category category) {
         return categoryService.updateCategory(id, category);
     }
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCategory(@PathVariable Long id) {
+        Optional<Category> ca = categoryService.getCategoryId(id);
+        return ResponseEntity.ok().body(ca.get());
+    }
+    @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable Long id){
         Category category = categoryService.getReferenceById(id);
         if(category==null)
@@ -45,5 +47,6 @@ public class CategoryController {
             categoryService.deleteCategory(id);
         }
     }
+
 
 }

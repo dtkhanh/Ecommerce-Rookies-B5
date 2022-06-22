@@ -1,5 +1,6 @@
 package com.example.ecommerce_rookies.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,12 +18,9 @@ public class ProductComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
-//
-
-
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnore
     private Account account;
 
     @Column(name="rating")

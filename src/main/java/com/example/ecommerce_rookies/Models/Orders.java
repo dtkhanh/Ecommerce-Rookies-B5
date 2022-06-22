@@ -29,7 +29,5 @@ public class Orders {
     @JoinColumn(name = "order_idUser")
     private Account account;
 
-    @OneToMany(mappedBy = "orders")
-    private Set<OderProduct> oderProducts;
 
 }

@@ -2,6 +2,7 @@ package com.example.ecommerce_rookies.Models;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,10 +30,12 @@ public class Product {
     private  String imageproduct;
 
     @ManyToOne
-    @JoinColumn(name = "category",nullable = false)
+    @JsonIgnore
+    @JoinColumn(name = "category")
     private Category category;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<ProductComment> productComments;
 
     @Column(name = "description")
@@ -43,10 +46,10 @@ public class Product {
     @Column(name = "create_date")
     private LocalDate updatedate;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "image")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "image",cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Gallery> gallery;
 
-    @OneToMany(mappedBy = "product")
-    private Set<OderProduct> oderProducts;
+
 
 }

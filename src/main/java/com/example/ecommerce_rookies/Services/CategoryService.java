@@ -9,6 +9,9 @@ import java.util.Optional;
 
 public interface CategoryService {
     Category createCategory(Category category);
+
+    Optional<Category> getCategoryId(Long id);
+
     // READ
     List<Category> getCategory();
     //UPDATE
@@ -17,4 +20,6 @@ public interface CategoryService {
     void deleteCategory(Long empId);
 
     Category getReferenceById(Long aLong);
+
+    Category getCategoryByName(String name);
 }
