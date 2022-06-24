@@ -1,8 +1,11 @@
 package com.example.ecommerce_rookies.models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -17,10 +20,11 @@ public class Roles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 60)
-    private RoleName rolename;
+    @Column(name="roleName")
+    private String rolename;
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "roles",cascade = CascadeType.ALL)
+    private Set<Account> users;
 
 }

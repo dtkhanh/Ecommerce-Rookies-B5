@@ -10,16 +10,16 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/auth/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(value = "" , method = RequestMethod.POST)
+    @PostMapping(value = "" )
     public Category createCategory(@RequestBody Category ctg){
         return categoryService.createCategory(ctg);
     }
-    @RequestMapping(value="", method=RequestMethod.GET)
+    @GetMapping(value="")
     public List<Category> readEmployees() {
         return categoryService.getCategory();
     }

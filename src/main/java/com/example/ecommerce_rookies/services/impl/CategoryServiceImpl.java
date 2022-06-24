@@ -42,9 +42,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getReferenceById(Long aLong) {
         return categoryRepository.getReferenceById(aLong);    }
-    @Override
-    public Category getCategoryByName(String name) { return categoryRepository.findCategoriesByCategoryname(name); }
-
 
 
 }

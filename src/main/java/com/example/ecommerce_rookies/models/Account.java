@@ -1,11 +1,15 @@
 package com.example.ecommerce_rookies.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,17 +27,22 @@ public class Account {
     @Column(name="password")
     private String password;
 
+    @NotBlank
+    @Size(min = 3, max = 100)
+    private String username;
+
+    @NotBlank
+    @Size(max = 100)
+    @Email
+    private String email;
+
     @Column(name="name")
     private String name;
 
-//    @ManyToOne
-//    @JoinColumn(name = "roleId",nullable = false)
-//    private Roles roles;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "roleId",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Roles> Roles = new HashSet<>();
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "roleId",nullable = false)
+    private Roles roles;
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
@@ -42,4 +51,9 @@ public class Account {
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private Set<BanUser> banUsers;
 
+    public Account(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }

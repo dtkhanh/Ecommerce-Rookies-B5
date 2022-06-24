@@ -18,8 +18,7 @@ public class Infomation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idinfo;
-    @Column(name="email")
-    private String email;
+
 
     @Column(name="address")
     private String address;

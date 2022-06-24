@@ -19,5 +19,4 @@ public interface CategoryService {
 
     Category getReferenceById(Long aLong);
 
-    Category getCategoryByName(String name);
 }
