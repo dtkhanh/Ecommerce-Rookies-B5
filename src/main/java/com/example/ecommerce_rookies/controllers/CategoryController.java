@@ -1,8 +1,10 @@
 package com.example.ecommerce_rookies.controllers;
 
 import com.example.ecommerce_rookies.models.Category;
+import com.example.ecommerce_rookies.payload.response.MessageResponse;
 import com.example.ecommerce_rookies.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,16 +18,18 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping(value = "" )
-    public Category createCategory(@RequestBody Category ctg){
-        return categoryService.createCategory(ctg);
+    public ResponseEntity<?> createCategory(@RequestBody Category ctg){
+       categoryService.createCategory(ctg);
+       return ResponseEntity.ok(new MessageResponse("Category registered successfully!"));
     }
     @GetMapping(value="")
     public List<Category> readEmployees() {
         return categoryService.getCategory();
     }
     @PutMapping("/{id}")
-    public Category updateProduct(@PathVariable Long id,@RequestBody Category category) {
-        return categoryService.updateCategory(id, category);
+    public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Category category) {
+        categoryService.updateCategory(id, category);
+        return ResponseEntity.ok(new MessageResponse("Category update successfully"));
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategory(@PathVariable Long id) {

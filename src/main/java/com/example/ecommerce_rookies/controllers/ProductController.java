@@ -2,6 +2,7 @@ package com.example.ecommerce_rookies.controllers;
 
 import com.example.ecommerce_rookies.modelDTO.ProductDTO;
 import com.example.ecommerce_rookies.models.Product;
+import com.example.ecommerce_rookies.payload.response.MessageResponse;
 import com.example.ecommerce_rookies.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
-        return productService.updateProduct(id, productDTO);
+    public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
+        productService.updateProduct(id, productDTO);
+        return ResponseEntity.ok(new MessageResponse("Product update successfully"));
     }
 
 }

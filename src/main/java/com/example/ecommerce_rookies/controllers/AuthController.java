@@ -47,8 +47,6 @@ public class AuthController {
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
     }
-
-
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -61,12 +59,10 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-        // Create new user's account
         Account user = new Account(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
         String strRoles = signUpRequest.getRole();
-//        Optional<Category> category = categoryService.getCategoryId(Long.valueOf(productDTO.getCategoryid()));
         if(strRoles == null)
             strRoles = "1";
         Optional<Roles> roles = rolesService.getRoleId(Long.valueOf(strRoles));
@@ -74,31 +70,5 @@ public class AuthController {
         user.setRoles(roles.get());
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!" + roles.get().getRolename()));
-//
-//        if (strRoles == null) {
-//            Roles userRole = roleRepository.findByName(RoleName.ROLE_USER)
-//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//            roles.add(userRole);
-//        } else {
-//            strRoles.forEach(role -> {
-//                switch (role.toLowerCase()) {
-//                    case "admin":
-//                        Roles adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                        roles.add(adminRole);
-//
-//                        break;
-//                    default:
-//                        Roles userRole = roleRepository.findByName(RoleName.ROLE_USER)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                        roles.add(userRole);
-//                }
-//            });
-//        }
-//
-//        user.setRoles(roles);
-//        userRepository.save(user);
-
-
     }
 }

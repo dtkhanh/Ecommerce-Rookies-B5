@@ -20,5 +20,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Optional<Account> getAccountId(Long id) { return accountRepository.findById(id); }
 
+    @Override
+    public void deleteAccountId(Long id){
+        accountRepository.deleteById(id);
+    }
+
 
 }
