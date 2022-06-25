@@ -35,7 +35,7 @@ public class AccountController {
     public  ResponseEntity<?> deleteAccount(@PathVariable Long id){
         Optional<Account> account = accountService.getAccountId(id);
         accountService.deleteAccountId(id);
-        return  ResponseEntity.ok(new MessageResponse("User delete successfully!" + account.get().getName() ) );
+        return  ResponseEntity.ok(new MessageResponse("User delete successfully!" + account.get().getUsername() ) );
     }
 
 }

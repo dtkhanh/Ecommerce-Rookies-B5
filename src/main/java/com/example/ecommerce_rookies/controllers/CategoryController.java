@@ -23,7 +23,7 @@ public class CategoryController {
        return ResponseEntity.ok(new MessageResponse("Category registered successfully!"));
     }
     @GetMapping(value="")
-    public List<Category> readEmployees() {
+    public List<Category> readCategory() {
         return categoryService.getCategory();
     }
     @PutMapping("/{id}")

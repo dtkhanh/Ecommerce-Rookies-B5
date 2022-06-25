@@ -30,15 +30,6 @@ public class Account {
     @NotBlank
     @Size(min = 3, max = 100)
     private String username;
-
-    @NotBlank
-    @Size(max = 100)
-    @Email
-    private String email;
-
-    @Column(name="name")
-    private String name;
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "roleId",nullable = false)
@@ -51,9 +42,8 @@ public class Account {
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private Set<BanUser> banUsers;
 
-    public Account(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
+    public Account(String password, String username) {
         this.password = password;
+        this.username = username;
     }
 }
