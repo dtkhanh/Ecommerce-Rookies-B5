@@ -13,76 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements  UserDetails{
-//    private static final long serialVersionUID = 1L;
-//
-//    @Getter
-//    private Long id;
-//
-//
-//    @Getter
-//    private String name;
-//
-//    @Getter
-//    @JsonIgnore
-//    private String password;
-//
-//    private Collection<? extends GrantedAuthority> authorities;
-//
-//    public UserDetailsImpl(Long id, String name, String password, Collection<? extends GrantedAuthority> authorities) {
-//        this.id = id;
-//        this.name = name;
-//        this.password = password;
-//        this.authorities = authorities;
-//    }
-//
-//    public static UserDetailsImpl build(Account user){
-//        Set<Roles> Roles = new HashSet<>();
-//        Collection<? extends GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoles().getRolename()));
-//        return new UserDetailsImpl(
-//                user.getId(),
-//                user.getUsername(),
-//                user.getPassword(),
-//                authorities);
-//    }
-//
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return false;
-//    }
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o)
-//            return true;
-//        if (o == null || getClass() != o.getClass())
-//            return false;
-//        UserDetailsImpl user = (UserDetailsImpl) o;
-//        return Objects.equals(id, user.id);
-//    }
+
 private static final long serialVersionUID = 1L;
 
     @Getter
