@@ -13,67 +13,134 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements  UserDetails{
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
+//
+//    @Getter
+//    private Long id;
+//
+//
+//    @Getter
+//    private String name;
+//
+//    @Getter
+//    @JsonIgnore
+//    private String password;
+//
+//    private Collection<? extends GrantedAuthority> authorities;
+//
+//    public UserDetailsImpl(Long id, String name, String password, Collection<? extends GrantedAuthority> authorities) {
+//        this.id = id;
+//        this.name = name;
+//        this.password = password;
+//        this.authorities = authorities;
+//    }
+//
+//    public static UserDetailsImpl build(Account user){
+//        Set<Roles> Roles = new HashSet<>();
+//        Collection<? extends GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoles().getRolename()));
+//        return new UserDetailsImpl(
+//                user.getId(),
+//                user.getUsername(),
+//                user.getPassword(),
+//                authorities);
+//    }
+//
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o)
+//            return true;
+//        if (o == null || getClass() != o.getClass())
+//            return false;
+//        UserDetailsImpl user = (UserDetailsImpl) o;
+//        return Objects.equals(id, user.id);
+//    }
+private static final long serialVersionUID = 1L;
 
     @Getter
     private Long id;
 
 
-    @Getter
-    private String name;
+    private String username;
 
-    @Getter
+
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String name, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String username,  String password,
+                           Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(Account user){
-        Set<Roles> Roles = new HashSet<>();
-        Collection<?> authorities = Set.of(new SimpleGrantedAuthority(user.getRoles().getRolename()));
+    public static UserDetailsImpl build(Account user) {
+        Collection<? extends GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoles().getRolename()));
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                (Collection<? extends GrantedAuthority>) authorities);
+                authorities);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
+    public boolean isAccountNonLocked() { return true; }
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
+    public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() {
-        return false;
-    }
+    public boolean isEnabled() { return true; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

@@ -20,20 +20,14 @@ public class JwtResponse {
     private String username;
 
     @Setter
-    private String name;
-
-    @Setter
     private String email;
 
     private String roles;
 
-    public JwtResponse(String token, String type, Long id, String username, String name, String email, String roles) {
-        this.token = token;
-        this.type = type;
+    public JwtResponse(String accessToken, Long id, String username, String roles) {
+        this.token = accessToken;
         this.id = id;
         this.username = username;
-        this.name = name;
-        this.email = email;
         this.roles = roles;
     }
 }
