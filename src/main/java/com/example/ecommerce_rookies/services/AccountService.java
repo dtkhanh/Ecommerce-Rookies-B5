@@ -1,5 +1,6 @@
 package com.example.ecommerce_rookies.services;
 
+import com.example.ecommerce_rookies.modelDTO.AccountDto;
 import com.example.ecommerce_rookies.models.Account;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface AccountService {
     Optional<Account> getAccountId(Long id);
 
     void deleteAccountId(Long id);
+
+    Account updateAccount(long id, AccountDto accountDto);
 }

@@ -1,9 +1,11 @@
 package com.example.ecommerce_rookies.controllers;
 
 
+import com.example.ecommerce_rookies.modelDTO.AccountDto;
 import com.example.ecommerce_rookies.models.Account;
 import com.example.ecommerce_rookies.models.Category;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
+import com.example.ecommerce_rookies.repository.InfomationRepository;
 import com.example.ecommerce_rookies.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ import java.util.Optional;
 public class AccountController {
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private InfomationRepository infomationRepository;
 
 
     @GetMapping(value="")
@@ -35,7 +40,14 @@ public class AccountController {
     public  ResponseEntity<?> deleteAccount(@PathVariable Long id){
         Optional<Account> account = accountService.getAccountId(id);
         accountService.deleteAccountId(id);
+        infomationRepository.deleteById(id);
         return  ResponseEntity.ok(new MessageResponse("User delete successfully!" + account.get().getUsername() ) );
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody AccountDto accountDto){
+        Optional<Account> account = accountService.getAccountId(id);
+        accountService.updateAccount(id,accountDto);
+        return ResponseEntity.ok(new MessageResponse("User update successfully!" + account.get().getUsername() ) );
     }
 
 }

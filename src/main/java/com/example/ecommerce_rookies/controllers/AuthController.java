@@ -59,11 +59,11 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
-//        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-//            return ResponseEntity
-//                    .badRequest()
-//                    .body(new MessageResponse("Error: Email is already in use!"));
-//        }
+        if (infomationRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
         Account user = new Account(signUpRequest.getName(),
                 encoder.encode(signUpRequest.getPassword()));
         String strRoles = signUpRequest.getRole();
@@ -73,8 +73,6 @@ public class AuthController {
         Optional<Roles> optionalRole= roleRepository.findById(Long.parseLong(strRoles));
         user.setRoles(roles.get());
         userRepository.save(user);
-
-
         Infomation info = new Infomation(signUpRequest.getUsername(),signUpRequest.getEmail(),null,null,null,userRepository.save(user));
         infomationRepository.save(info);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!" + roles.get().getRolename()));
