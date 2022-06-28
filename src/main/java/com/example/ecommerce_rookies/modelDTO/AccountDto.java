@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 @Setter
 public class AccountDto {
     private Long id;
-
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;

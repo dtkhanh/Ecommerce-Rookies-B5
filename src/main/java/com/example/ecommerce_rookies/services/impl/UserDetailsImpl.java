@@ -18,11 +18,7 @@ private static final long serialVersionUID = 1L;
 
     @Getter
     private Long id;
-
-
     private String username;
-
-
     @JsonIgnore
     private String password;
 

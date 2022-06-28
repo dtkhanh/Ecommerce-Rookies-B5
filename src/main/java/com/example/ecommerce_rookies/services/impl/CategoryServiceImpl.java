@@ -13,14 +13,12 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Override
-    public Category createCategory(Category emp) {
-        return categoryRepository.save(emp);
+    public Category createCategory(Category category) {
+        return categoryRepository.save(category);
     }
     @Override
     public Optional<Category> getCategoryId(Long id) { return categoryRepository.findById(id); }
-
     // READ
     @Override
     public List<Category> getCategory() {
@@ -28,20 +26,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
     // DELETE
     @Override
-    public void deleteCategory(Long empId) {
-        categoryRepository.deleteById(empId);
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
     }
     @Override
     public Category updateCategory(long id, Category category) {
-        Category cte = categoryRepository.getOne(id);
-        if(cte==null)
-            return null;
-        cte.setCategoryname(category.getCategoryname());
-        return categoryRepository.save(cte);
+        Category category1 = categoryRepository.getOne(id);
+        category1.setCategoryname(category.getCategoryname());
+        return categoryRepository.save(category1);
     }
     @Override
-    public Category getReferenceById(Long aLong) {
-        return categoryRepository.getReferenceById(aLong);    }
+    public Category getReferenceById(Long id) {
+        return categoryRepository.getReferenceById(id);    }
 
 
 }

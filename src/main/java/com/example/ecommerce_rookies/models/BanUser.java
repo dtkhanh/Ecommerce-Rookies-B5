@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="BanUser")
+@Table(name="banUser")
 public class BanUser {
 
     @Id

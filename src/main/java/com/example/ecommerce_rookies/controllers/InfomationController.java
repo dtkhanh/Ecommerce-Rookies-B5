@@ -18,7 +18,7 @@ public class InfomationController {
     private InfomationRepository infomationRepository;
 
     @GetMapping("")
-    public List<Infomation> GetListInfomation(){
+    public List<Infomation> GetListInfomations(){
         return infomationRepository.findAll();
     }
 }

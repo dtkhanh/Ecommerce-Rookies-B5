@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Product")
+@Table(name = "product")
 public class Product {
 
     @Id

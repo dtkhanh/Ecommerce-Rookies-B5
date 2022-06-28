@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name ="Gallery")
+@Table(name ="gallery")
 public class Gallery {
 
     @Id

@@ -14,7 +14,6 @@ public class RolesServiceImpl implements RolesService {
     @Autowired
     private RolesRepository rolesRepository;
 
-
     @Override
     public List<Roles> getRoles() {
         return rolesRepository.findAll();

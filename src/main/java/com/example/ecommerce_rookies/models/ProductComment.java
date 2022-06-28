@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="ProductComment")
+@Table(name="productComment")
 public class ProductComment {
 
     @Id

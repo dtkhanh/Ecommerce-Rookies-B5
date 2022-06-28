@@ -16,14 +16,13 @@ import java.util.Optional;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-
     @PostMapping(value = "" )
     public ResponseEntity<?> createCategory(@RequestBody Category ctg){
        categoryService.createCategory(ctg);
        return ResponseEntity.ok(new MessageResponse("Category registered successfully!"));
     }
     @GetMapping(value="")
-    public List<Category> readCategory() {
+    public List<Category> readCategorys() {
         return categoryService.getCategory();
     }
     @PutMapping("/{id}")
@@ -32,17 +31,18 @@ public class CategoryController {
         return ResponseEntity.ok(new MessageResponse("Category update successfully"));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategory(@PathVariable Long id) {
+    public ResponseEntity<?> getCategorybyId(@PathVariable Long id) {
         Optional<Category> ca = categoryService.getCategoryId(id);
         return ResponseEntity.ok().body(ca.get());
     }
     @DeleteMapping("/{id}")
-    public void deleteCategory(@PathVariable Long id){
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id){
         Category category = categoryService.getReferenceById(id);
         if(category==null)
-            return ;
+            return ResponseEntity.ok(new MessageResponse("Category is null"));
         else{
             categoryService.deleteCategory(id);
+            return ResponseEntity.ok().body(category);
         }
     }
 

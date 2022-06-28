@@ -1,0 +1,168 @@
+body {
+    font-family: "Montserrat";
+    text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+p {
+    color: #8f8f8f;
+}
+
+/* Headings */
+.big-heading {
+    line-height: 1.5;
+}
+
+.section-heading {
+    font-size: 3rem;
+    line-height: 1.5;
+}
+
+/* Sections */
+.colored-section {
+    background-color: #142f43;
+    color: #fff;
+}
+
+/* Containers */
+.container-fluid {
+    padding: 7% 15%;
+}
+
+/* Title Section */
+#title .container-fluid {
+    padding: 3% 15%;
+    text-align: left;
+}
+
+/* Search bar */
+.form {
+    position: relative;
+}
+
+.form .fa-search {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #9ca3af;
+}
+
+.form-input {
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form-input:focus {
+    box-shadow: none;
+    border: none;
+}
+
+/* Features Section */
+.feature-title {
+    font-size: 1.5rem;
+}
+
+.icon {
+    color: #ffab4c;
+    margin-bottom: 1rem;
+}
+
+.icon:hover {
+    color: #142f43;
+}
+
+/* Testimonials Section */
+.carousel-item.container-fluid {
+    padding: 0;
+}
+
+.carousel-item .row {
+    position: absolute;
+    top: 15%;
+}
+
+#christmas-carousel .section-heading {
+    color: #292c6d;
+}
+
+#christmas-carousel p {
+    font-family: "Corinthia";
+}
+
+#newyear-carousel .section-heading {
+    font-family: "Corinthia";
+    font-size: 6rem;
+}
+
+/* Press Section */
+.press-logo {
+    width: 15%;
+    margin: 20px 20px 40px;
+}
+
+/* Products Section */
+.card-img-top {
+    height: 15vw;
+}
+
+.card-body {
+    text-align: left;
+}
+
+.card-title {
+    text-align: center;
+}
+
+.more-info {
+    text-align: right;
+    margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+    #title {
+        text-align: center;
+    }
+
+    #christmas-carousel .section-heading {
+        font-size: 1rem;
+    }
+
+    #newyear-carousel .section-heading {
+        font-size: 2rem;
+    }
+
+    .card-img-top {
+        height: 256px;
+    }
+}
+.text-product{
+    font-family: 'Red Hat Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 158%;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.0075em;
+
+    color: #000000;
+}
+.title-h1{
+    padding-bottom: 25px;
+    padding-top: 20px;
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}

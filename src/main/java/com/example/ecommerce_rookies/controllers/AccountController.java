@@ -25,19 +25,18 @@ public class AccountController {
 
 
     @GetMapping(value="")
-    public List<Account> readAccount() {
+    public List<Account> readAccounts() {
         return accountService.getAccountList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAccount(@PathVariable Long id) {
+    public ResponseEntity<?> getAccountbyId(@PathVariable Long id) {
         Optional<Account> account = accountService.getAccountId(id);
-        System.out.println("khanhtest" + account.get().getRoles().getRolename());
         return ResponseEntity.ok().body(account.get());
     }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<?> deleteAccount(@PathVariable Long id){
+    public  ResponseEntity<?> deleteAccountbyId(@PathVariable Long id){
         Optional<Account> account = accountService.getAccountId(id);
         accountService.deleteAccountId(id);
         infomationRepository.deleteById(id);
