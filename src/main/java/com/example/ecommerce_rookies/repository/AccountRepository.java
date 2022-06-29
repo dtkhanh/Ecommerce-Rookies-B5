@@ -13,5 +13,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Boolean existsByUsername(String username);
 
+    void deleteAllById(Long id);
+
 
 }

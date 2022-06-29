@@ -1,17 +1,19 @@
 package com.example.ecommerce_rookies.controllers;
 
-import com.example.ecommerce_rookies.exception.product.NotFoundProduct;
+import com.example.ecommerce_rookies.exception.category.NotFoundCategory;
 import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import com.example.ecommerce_rookies.modelDTO.ProductDTO;
 import com.example.ecommerce_rookies.models.Category;
 import com.example.ecommerce_rookies.models.Product;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
+import com.example.ecommerce_rookies.repository.ProductRepository;
 import com.example.ecommerce_rookies.services.CategoryService;
 import com.example.ecommerce_rookies.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -25,11 +27,14 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
     private CategoryService categoryService;
     @PostMapping("")
-    public  ResponseEntity<Product> createCategory( @RequestBody ProductDTO prd){
-//        productService.createProduct(productService.convertProduct(prd));
-        return new ResponseEntity<>(productService.createProduct(productService.convertProduct(prd)), HttpStatus.CREATED);
+    public  ResponseEntity<?> createCategory( @RequestBody ProductDTO prd){
+       Product product = productService.createProduct(productService.convertProduct(prd));
+        return  ResponseEntity.ok().body(product);
 
     }
     @GetMapping("")
@@ -41,7 +46,7 @@ public class ProductController {
     public ResponseEntity<?> getProductbyId(@PathVariable Long id){
         Optional<Product> product = productService.getProductById(id);
         if (product.isEmpty()) {
-            throw new NotFoundProduct(id);
+            throw new NotFoundProductByCategory.NotFoundProduct(id);
         }
         return ResponseEntity.ok().body(product.get());
     }
@@ -66,7 +71,7 @@ public class ProductController {
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
         Optional<Product> product = productService.getProductById(id);
         if(product.isEmpty())
-            throw  new NotFoundProduct(id);
+            throw  new NotFoundProductByCategory.NotFoundProduct(id);
         else {
             productService.updateProduct(id, productDTO);
             return ResponseEntity.ok(new MessageResponse("Product update successfully"));
@@ -76,10 +81,12 @@ public class ProductController {
     public ResponseEntity<?> deleteProductId(@PathVariable Long id){
         Optional<Product> product = productService.getProductById(id);
         if(product.isEmpty())
-            throw new NotFoundProduct(id);
+            throw new NotFoundProductByCategory.NotFoundProduct(id);
         else {
             productService.deleteProductById(id);
-            return ResponseEntity.ok().body(String.format("Delete product successfully"));
+          return ResponseEntity.ok().body(String.format("Delete product successfully"));
         }
     }
+
+
 }

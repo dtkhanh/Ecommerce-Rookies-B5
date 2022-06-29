@@ -31,7 +31,7 @@ public class Product {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category", nullable = false)
     private Category category;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)

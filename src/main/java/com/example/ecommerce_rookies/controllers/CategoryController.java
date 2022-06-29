@@ -1,21 +1,30 @@
 package com.example.ecommerce_rookies.controllers;
 
+import com.example.ecommerce_rookies.exception.category.NotFoundCategory;
+import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import com.example.ecommerce_rookies.models.Category;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
+import com.example.ecommerce_rookies.repository.CategoryRepository;
 import com.example.ecommerce_rookies.services.CategoryService;
+import com.example.ecommerce_rookies.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ProductService productService;
+
     @PostMapping(value = "" )
     public ResponseEntity<?> createCategory(@RequestBody Category ctg){
        categoryService.createCategory(ctg);
@@ -27,23 +36,30 @@ public class CategoryController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Category category) {
+        if(categoryService.getCategoryId(id).isEmpty())
+            throw new NotFoundProductByCategory.NotFoundProduct(id);
         categoryService.updateCategory(id, category);
-        return ResponseEntity.ok(new MessageResponse("Category update successfully"));
+        return ResponseEntity.ok().body(String.format("update category successfully"));
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategorybyId(@PathVariable Long id) {
         Optional<Category> ca = categoryService.getCategoryId(id);
-        return ResponseEntity.ok().body(ca.get());
+        if(ca.isEmpty())
+            throw new NotFoundProductByCategory.NotFoundProduct(id);
+        return ResponseEntity.ok().body(categoryService.getReferenceById(id));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long id){
-        Category category = categoryService.getReferenceById(id);
-        if(category==null)
-            return ResponseEntity.ok(new MessageResponse("Category is null"));
-        else{
-            categoryService.deleteCategory(id);
-            return ResponseEntity.ok().body(category);
+    @Transactional
+    @Modifying
+    @Query("delete from Product p where p.category.id = ?1")
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        Optional<Category> ca = categoryService.getCategoryId(id);
+        if (!ca.isPresent()) {
+            throw new NotFoundCategory(id);
         }
+        productService.deleteProductByCategoryID(id);
+        categoryService.deleteCategory(id);
+        return ResponseEntity.ok().body(String.format("Delete successfully!"));
     }
 
 

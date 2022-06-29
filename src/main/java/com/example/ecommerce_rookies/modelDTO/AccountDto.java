@@ -37,4 +37,8 @@ public class AccountDto {
         this.email = email;
         this.avatar = avatar;
     }
+
+    public AccountDto() {
+
+    }
 }

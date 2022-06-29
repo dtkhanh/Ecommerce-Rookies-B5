@@ -16,6 +16,8 @@ public interface ProductService {
 
     Optional<Product> getProductById(Long id);
 
+    void deleteProductByCategoryID(Long cid);
+
     void deleteProductById(Long id);
 
 
@@ -23,4 +25,6 @@ public interface ProductService {
 
 
     Product updateProduct(long id, ProductDTO productDTO);
+
+
 }

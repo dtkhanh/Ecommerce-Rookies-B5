@@ -22,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryService categoryService;
 
+
     @Override
     public void delete(Product product) {
         productRepository.delete(product);
@@ -41,14 +42,16 @@ public class ProductServiceImpl implements ProductService {
     public  Optional<Product> getProductById(Long id) { return productRepository.findById(id);}
 
     @Override
-    public void deleteProductById(Long id){ productRepository.deleteById(id);}
+    public void deleteProductByCategoryID(Long cid) { productRepository.deleteAllByCategory_Id(cid); }
 
-
+    @Override
+    public void deleteProductById(Long id) {
+        productRepository.deleteAllById(id);
+    }
 
 
     public Product convertProduct(ProductDTO productDTO) {
         Product product = new Product();
-        product.setId(productDTO.getId());
         product.setPrice(productDTO.getPrice());
         product.setImageproduct(productDTO.getImage());
         product.setDescription(productDTO.getDescription());
@@ -75,4 +78,6 @@ public class ProductServiceImpl implements ProductService {
         prd.setCategory(category.get());
         return productRepository.save(prd);
     }
+
+
 }

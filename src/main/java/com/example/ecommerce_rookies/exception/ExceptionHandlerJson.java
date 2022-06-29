@@ -1,6 +1,6 @@
 package com.example.ecommerce_rookies.exception;
 
-import com.example.ecommerce_rookies.exception.product.NotFoundProduct;
+import com.example.ecommerce_rookies.exception.category.NotFoundCategory;
 import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -27,8 +27,8 @@ public class ExceptionHandlerJson extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler(value = NotFoundProduct.class)
-    public ResponseEntity<?> sendErrorNotFoundProductById(NotFoundProduct exception){
+    @ExceptionHandler(value = NotFoundProductByCategory.NotFoundProduct.class)
+    public ResponseEntity<?> sendErrorNotFoundProductById(NotFoundProductByCategory.NotFoundProduct exception){
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(sendErrorJson(httpStatus,exception), httpStatus);
     }
@@ -38,6 +38,13 @@ public class ExceptionHandlerJson extends ResponseEntityExceptionHandler {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(sendErrorJson(httpStatus,exception), httpStatus);
     }
+
+    @ExceptionHandler(value = NotFoundCategory.class)
+    public ResponseEntity<?> sendErrorNotFoundCategoryById(NotFoundCategory exception){
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(sendErrorJson(httpStatus,exception), httpStatus);
+    }
+
 
 
 

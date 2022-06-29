@@ -10,13 +10,13 @@ public class ProductDTO {
     private long id;
     private String name;
     private String description;
-    private float price;
+    private Float price;
 
     private String image;
     private String categoryid;
 
 
-    public ProductDTO(long id, String name, String description, float price, String image, String categoryid) {
+    public ProductDTO(long id, String name, String description, Float price, String image, String categoryid) {
         this.id = id;
         this.name = name;
         this.description = description;

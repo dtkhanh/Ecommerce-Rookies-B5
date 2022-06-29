@@ -1,6 +1,7 @@
 package com.example.ecommerce_rookies.controllers;
 
 
+import com.example.ecommerce_rookies.exception.account.NotFoundAccount;
 import com.example.ecommerce_rookies.modelDTO.AccountDto;
 import com.example.ecommerce_rookies.models.Account;
 import com.example.ecommerce_rookies.models.Category;
@@ -25,28 +26,34 @@ public class AccountController {
 
 
     @GetMapping(value="")
-    public List<Account> readAccounts() {
-        return accountService.getAccountList();
+    public List<AccountDto> readAccounts() {
+        return accountService.convertListDTO(accountService.getAccountList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAccountbyId(@PathVariable Long id) {
         Optional<Account> account = accountService.getAccountId(id);
-        return ResponseEntity.ok().body(account.get());
+        if(account.isEmpty())
+            throw new NotFoundAccount(id);
+        return ResponseEntity.ok().body(accountService.convertDTO(account.get()));
     }
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<?> deleteAccountbyId(@PathVariable Long id){
         Optional<Account> account = accountService.getAccountId(id);
+        if(account.isEmpty())
+            throw new NotFoundAccount(id);
+        infomationRepository.deleteAllByAccount_Id(id);
         accountService.deleteAccountId(id);
-        infomationRepository.deleteById(id);
-        return  ResponseEntity.ok(new MessageResponse("User delete successfully!" + account.get().getUsername() ) );
+        return ResponseEntity.ok().body(String.format("User delete successfully!"));
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody AccountDto accountDto){
         Optional<Account> account = accountService.getAccountId(id);
+        if(account.isEmpty())
+            throw  new NotFoundAccount(id);
         accountService.updateAccount(id,accountDto);
-        return ResponseEntity.ok(new MessageResponse("User update successfully!" + account.get().getUsername() ) );
+        return ResponseEntity.ok().body(String.format("User update successfully!"));
     }
 
 }

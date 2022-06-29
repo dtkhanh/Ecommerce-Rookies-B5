@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,11 +38,33 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<AccountDto> convertListDTO(List<Account> accountList){
+        List<AccountDto> list = new ArrayList<>();
+        for (Account account : accountList) {
+            list.add(convertDTO(account));
+        }
+        return list;
+    }
+
+    @Override
+    public AccountDto convertDTO(Account account){
+        AccountDto accountDto =  new AccountDto();
+        accountDto.setId(account.getId());
+        accountDto.setUsername(account.getUsername());
+        accountDto.setPassword(account.getPassword());
+        Optional<Infomation> infomation = infomationRepository.findById(account.getId());
+        accountDto.setAddress(infomation.get().getAddress());
+        accountDto.setEmail(infomation.get().getEmail());
+        accountDto.setAvatar(infomation.get().getAvatar());
+        accountDto.setPhone(infomation.get().getPhone());
+        return accountDto;
+    }
+
+    @Override
     public Account updateAccount(long id, AccountDto accountDto) {
         Account account = accountRepository.getOne(id);
         Infomation infomation = infomationRepository.getOne(id);
-        Account user = new Account(accountDto.getUsername(),
-                encoder.encode(accountDto.getPassword()));
+        Account user = new Account( encoder.encode(accountDto.getPassword()),accountDto.getUsername());
         account.setUsername(user.getUsername());
         account.setPassword(user.getPassword());
         accountRepository.save(account);

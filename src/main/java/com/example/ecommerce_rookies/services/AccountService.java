@@ -14,5 +14,9 @@ public interface AccountService {
 
     void deleteAccountId(Long id);
 
+    List<AccountDto> convertListDTO(List<Account> accountList);
+
+    AccountDto convertDTO(Account account);
+
     Account updateAccount(long id, AccountDto accountDto);
 }
