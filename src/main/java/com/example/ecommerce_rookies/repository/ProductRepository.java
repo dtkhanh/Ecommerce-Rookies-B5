@@ -23,5 +23,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findProductByTitle(String name);
 
+    @Transactional
+    @Modifying
+    @Query("SELECT e FROM Product e ORDER BY e.ratting DESC")
+    List<Product> SortProductByRatting();
+
+
 
 }

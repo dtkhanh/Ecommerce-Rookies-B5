@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,20 @@ public class ProductServiceImpl implements ProductService {
         Optional<Category> category = categoryService.getCategoryId(Long.valueOf(productDTO.getCategoryid()));
         product.setCategory(category.get());
         return product;
+    }
+
+    @Override
+    public List<Product> top5ProductRatting(){
+        List<Product> list = productRepository.SortProductByRatting();
+        List<Product> newlist = new ArrayList<>();
+        if(list.size()>5) {
+            for (int i = 0; i < 5; i++) {
+                newlist.add(list.get(i));
+            }
+            return newlist;
+        }
+        return list;
+
     }
 
     @Override

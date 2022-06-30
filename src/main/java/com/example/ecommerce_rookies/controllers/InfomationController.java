@@ -4,6 +4,7 @@ package com.example.ecommerce_rookies.controllers;
 import com.example.ecommerce_rookies.models.Infomation;
 import com.example.ecommerce_rookies.repository.InfomationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class InfomationController {
     private InfomationRepository infomationRepository;
 
     @GetMapping("")
-    public List<Infomation> GetListInfomations(){
-        return infomationRepository.findAll();
+    public ResponseEntity<?> GetListInfomations(){
+        return ResponseEntity.ok().body(infomationRepository.findAll());
     }
 }

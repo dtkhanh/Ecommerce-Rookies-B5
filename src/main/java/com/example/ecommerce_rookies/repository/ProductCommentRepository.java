@@ -12,4 +12,5 @@ public interface ProductCommentRepository extends JpaRepository<ProductComment, 
  @Modifying
  @Query("delete from ProductComment p where p.id = ?1")
  void deleteAllById(Long id);
+
 }

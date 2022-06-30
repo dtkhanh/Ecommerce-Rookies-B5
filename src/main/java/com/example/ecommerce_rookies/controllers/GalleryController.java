@@ -19,7 +19,7 @@ public class GalleryController {
     GalleryRepository galleryRepository;
 
     @GetMapping("")
-    public List<Gallery> GetGallerys(){
-        return galleryRepository.findAll();
+    public ResponseEntity<?> GetGallerys(){
+        return ResponseEntity.ok().body(galleryRepository.findAll());
     }
 }

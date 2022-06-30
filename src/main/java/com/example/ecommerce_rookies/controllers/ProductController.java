@@ -57,8 +57,8 @@ public class ProductController {
 
     }
     @GetMapping("")
-    public List<Product> GetProducts(){
-        return productService.findAll();
+    public ResponseEntity<?> GetProducts(){
+        return ResponseEntity.ok().body(productService.findAll());
     }
 
     @GetMapping("/name/{name}")
@@ -121,6 +121,11 @@ public class ProductController {
             productService.deleteProductById(id);
           return ResponseEntity.ok().body(String.format("Delete product successfully"));
         }
+    }
+
+    @GetMapping("/sort")
+    public ResponseEntity<?> top5Product(){
+        return ResponseEntity.ok().body(productService.top5ProductRatting());
     }
 
 

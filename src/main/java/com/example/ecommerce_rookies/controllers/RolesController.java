@@ -24,7 +24,7 @@ public class RolesController {
         return ResponseEntity.ok(new MessageResponse("Roles update successfully"));
     }
     @GetMapping(value="")
-    public List<Roles> readRoles() {
-        return rolesService.getRoles();
+    public ResponseEntity<?> readRoles() {
+        return ResponseEntity.ok().body(rolesService.getRoles());
     }
 }

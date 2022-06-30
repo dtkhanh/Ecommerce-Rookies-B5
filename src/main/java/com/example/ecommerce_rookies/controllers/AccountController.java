@@ -26,8 +26,8 @@ public class AccountController {
 
 
     @GetMapping(value="")
-    public List<AccountDto> readAccounts() {
-        return accountService.convertListDTO(accountService.getAccountList());
+    public ResponseEntity<?> readAccounts() {
+        return ResponseEntity.ok().body(accountService.convertListDTO(accountService.getAccountList()));
     }
 
     @GetMapping("/{id}")

@@ -50,9 +50,9 @@ public class ProductCommentController {
     }
     @GetMapping()
 
-    public List<ProductComment> getProductComments(){
+    public ResponseEntity<?> getProductComments(){
 //        return productCommentService.convertListDTO(productCommentService.getProductCommentList());
-        return productCommentRepository.findAll();
+        return ResponseEntity.ok().body(productCommentRepository.findAll());
     }
 
     @PostMapping()
