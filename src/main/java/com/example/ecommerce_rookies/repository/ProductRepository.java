@@ -21,4 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("delete from Product p where p.id = ?1")
     void deleteAllById(Long id);
 
+    Product findProductByTitle(String name);
+
+
 }

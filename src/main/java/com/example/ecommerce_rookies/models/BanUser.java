@@ -19,7 +19,6 @@ public class BanUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
     @ManyToOne
     @JoinColumn(name="user_id",nullable = false)
     private Account account;

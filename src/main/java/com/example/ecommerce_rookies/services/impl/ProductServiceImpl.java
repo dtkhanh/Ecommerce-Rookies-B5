@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +41,11 @@ public class ProductServiceImpl implements ProductService {
     public  Optional<Product> getProductById(Long id) { return productRepository.findById(id);}
 
     @Override
+    public Product getProductByName(String name){
+        return productRepository.findProductByTitle(name);
+    }
+
+    @Override
     public void deleteProductByCategoryID(Long cid) { productRepository.deleteAllByCategory_Id(cid); }
 
     @Override
@@ -53,7 +57,9 @@ public class ProductServiceImpl implements ProductService {
     public Product convertProduct(ProductDTO productDTO) {
         Product product = new Product();
         product.setPrice(productDTO.getPrice());
-        product.setImageproduct(productDTO.getImage());
+        List<String> image = productDTO.getImage();
+        if(!image.isEmpty())
+            product.setImageproduct(image.get(0));
         product.setDescription(productDTO.getDescription());
         product.setTitle(productDTO.getName());
         product.setCreatedate(LocalDate.now());
@@ -69,11 +75,14 @@ public class ProductServiceImpl implements ProductService {
         if(prd==null)
             return null;
         prd.setPrice(productDTO.getPrice());
-        prd.setImageproduct(productDTO.getImage());
+        List<String> image = productDTO.getImage();
+        if(!image.isEmpty())
+            prd.setImageproduct(image.get(0));
         prd.setDescription(productDTO.getDescription());
         prd.setTitle(productDTO.getName());
         prd.setCreatedate(LocalDate.now());
         prd.setUpdatedate(null);
+        prd.setRatting(0);
         Optional<Category> category = categoryService.getCategoryId(Long.valueOf(productDTO.getCategoryid()));
         prd.setCategory(category.get());
         return productRepository.save(prd);

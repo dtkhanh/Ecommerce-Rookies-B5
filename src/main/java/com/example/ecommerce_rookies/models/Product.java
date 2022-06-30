@@ -29,13 +29,16 @@ public class Product {
     @Column(name = "imageproduct")
     private  String imageproduct;
 
+    @Column(name="ratting")
+    private float ratting ;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "category", nullable = false)
     private Category category;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    @JsonIgnore
+//    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private Set<ProductComment> productComments;
 
     @Column(name = "description")

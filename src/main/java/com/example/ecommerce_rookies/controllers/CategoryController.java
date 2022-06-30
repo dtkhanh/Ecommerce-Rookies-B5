@@ -3,8 +3,10 @@ package com.example.ecommerce_rookies.controllers;
 import com.example.ecommerce_rookies.exception.category.NotFoundCategory;
 import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import com.example.ecommerce_rookies.models.Category;
+import com.example.ecommerce_rookies.models.Product;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
 import com.example.ecommerce_rookies.repository.CategoryRepository;
+import com.example.ecommerce_rookies.repository.GalleryRepository;
 import com.example.ecommerce_rookies.services.CategoryService;
 import com.example.ecommerce_rookies.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import java.util.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private GalleryRepository galleryRepository;
 
     @Autowired
     private ProductService productService;
@@ -49,13 +54,17 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryService.getReferenceById(id));
     }
     @DeleteMapping("/{id}")
-    @Transactional
-    @Modifying
-    @Query("delete from Product p where p.category.id = ?1")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         Optional<Category> ca = categoryService.getCategoryId(id);
         if (!ca.isPresent()) {
             throw new NotFoundCategory(id);
+        }
+        Set<Product> list = ca.get().getProducts();
+        if(!list.isEmpty()) {
+            for (Product product : list) {
+                if(!product.getGallery().isEmpty())
+                    galleryRepository.deleteGalleryByProduct_Id(product.getId());
+            }
         }
         productService.deleteProductByCategoryID(id);
         categoryService.deleteCategory(id);

@@ -16,6 +16,8 @@ public interface ProductService {
 
     Optional<Product> getProductById(Long id);
 
+    Product getProductByName(String name);
+
     void deleteProductByCategoryID(Long cid);
 
     void deleteProductById(Long id);

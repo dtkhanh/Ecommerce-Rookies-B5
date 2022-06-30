@@ -1,11 +1,16 @@
 package com.example.ecommerce_rookies.controllers;
 
+import com.example.ecommerce_rookies.exception.account.NotFoundAccount;
 import com.example.ecommerce_rookies.exception.category.NotFoundCategory;
 import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import com.example.ecommerce_rookies.modelDTO.ProductDTO;
 import com.example.ecommerce_rookies.models.Category;
+import com.example.ecommerce_rookies.models.Gallery;
 import com.example.ecommerce_rookies.models.Product;
+import com.example.ecommerce_rookies.models.ProductComment;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
+import com.example.ecommerce_rookies.repository.GalleryRepository;
+import com.example.ecommerce_rookies.repository.ProductCommentRepository;
 import com.example.ecommerce_rookies.repository.ProductRepository;
 import com.example.ecommerce_rookies.services.CategoryService;
 import com.example.ecommerce_rookies.services.ProductService;
@@ -24,7 +29,12 @@ import java.util.*;
 public class ProductController {
 
     @Autowired
+    private ProductCommentRepository productCommentRepository;
+    @Autowired
     private ProductService productService;
+
+    @Autowired
+    private GalleryRepository galleryRepository;
 
     @Autowired
     ProductRepository productRepository;
@@ -34,12 +44,30 @@ public class ProductController {
     @PostMapping("")
     public  ResponseEntity<?> createCategory( @RequestBody ProductDTO prd){
        Product product = productService.createProduct(productService.convertProduct(prd));
+       List<String> image = prd.getImage();
+        if(image.size()>1){
+            for(int i=1; i<image.size();i++){
+                Gallery gallery = new Gallery();
+                gallery.setProduct(product);
+                gallery.setImage(image.get(i));
+                galleryRepository.save(gallery);
+            }
+        }
         return  ResponseEntity.ok().body(product);
 
     }
     @GetMapping("")
     public List<Product> GetProducts(){
         return productService.findAll();
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<?> getProductByName(@PathVariable String name){
+        Product product = productService.getProductByName(name);
+        if(product == null)
+            throw new NotFoundProductByCategory.NotFoundProduct(product.getId());
+        return ResponseEntity.ok().body(product);
+
     }
 
     @GetMapping("/{id}")
@@ -83,6 +111,13 @@ public class ProductController {
         if(product.isEmpty())
             throw new NotFoundProductByCategory.NotFoundProduct(id);
         else {
+            Set<ProductComment> list = product.get().getProductComments();
+            if(!list.isEmpty()) {
+                for (ProductComment productComment : list) {
+                    productCommentRepository.deleteAllById(productComment.getId());
+                }
+            }
+            galleryRepository.deleteGalleryByProduct_Id(id);
             productService.deleteProductById(id);
           return ResponseEntity.ok().body(String.format("Delete product successfully"));
         }

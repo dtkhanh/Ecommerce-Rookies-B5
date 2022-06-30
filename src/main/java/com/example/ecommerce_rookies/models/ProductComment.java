@@ -31,6 +31,7 @@ public class ProductComment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product")
+    @JsonIgnore
     private Product product;
 
 }
