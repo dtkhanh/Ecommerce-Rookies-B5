@@ -1,5 +1,6 @@
 package com.example.ecommerce_rookies.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,10 +26,12 @@ public class OrderDetails {
 
     @ManyToOne
     @JoinColumn(name="idOrders")
+    @JsonIgnore
     private Orders orders;
 //
     @OneToOne
     @JoinColumn(name = "product_id" )
+    @JsonIgnore
     private Product product;
 //
 //    public OrderDetails(float price, int number, Orders orders, Product product) {

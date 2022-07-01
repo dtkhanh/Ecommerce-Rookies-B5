@@ -3,6 +3,7 @@ package com.example.ecommerce_rookies.controllers;
 import com.example.ecommerce_rookies.jwt.JwtUtils;
 import com.example.ecommerce_rookies.models.Account;
 import com.example.ecommerce_rookies.models.Infomation;
+import com.example.ecommerce_rookies.models.Orders;
 import com.example.ecommerce_rookies.models.Roles;
 import com.example.ecommerce_rookies.payload.request.LoginRequest;
 import com.example.ecommerce_rookies.payload.request.SignupRequest;
@@ -10,6 +11,7 @@ import com.example.ecommerce_rookies.payload.response.JwtResponse;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
 import com.example.ecommerce_rookies.repository.AccountRepository;
 import com.example.ecommerce_rookies.repository.InfomationRepository;
+import com.example.ecommerce_rookies.repository.OrdersRepository;
 import com.example.ecommerce_rookies.repository.RolesRepository;
 import com.example.ecommerce_rookies.services.RolesService;
 import com.example.ecommerce_rookies.services.impl.UserDetailsImpl;
@@ -24,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +38,9 @@ public class AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    OrdersRepository ordersRepository;
 
     @Autowired
     RolesService rolesService;
@@ -84,6 +90,8 @@ public class AuthController {
             user.setRoles(roles.get());
             userRepository.save(user);
             Infomation info = new Infomation(signUpRequest.getUsername(), signUpRequest.getEmail(), null, null, null, userRepository.save(user));
+            Orders orders = new Orders(user.getId(),0, LocalDate.now(),user,null);
+            ordersRepository.save(orders);
             infomationRepository.save(info);
             return ResponseEntity.ok(new MessageResponse("User registered successfully!" + roles.get().getRolename()));
         }

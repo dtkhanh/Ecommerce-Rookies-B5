@@ -67,7 +67,6 @@ public class ProductController {
         if(product == null)
             throw new NotFoundProductByCategory.NotFoundProduct(product.getId());
         return ResponseEntity.ok().body(product);
-
     }
 
     @GetMapping("/{id}")
