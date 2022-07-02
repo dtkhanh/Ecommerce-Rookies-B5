@@ -25,7 +25,7 @@ import java.util.*;
 
 
 @RestController
-@RequestMapping("/api/auth/products")
+@RequestMapping("/api/products")
 public class ProductController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("")
+    @PostMapping("/admin")
     public  ResponseEntity<?> createCategory( @RequestBody ProductDTO prd){
        Product product = productService.createProduct(productService.convertProduct(prd));
        List<String> image = prd.getImage();
@@ -94,7 +94,7 @@ public class ProductController {
                 return ResponseEntity.ok().body((newlistproduct));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
         Optional<Product> product = productService.getProductById(id);
         if(product.isEmpty())
@@ -104,7 +104,7 @@ public class ProductController {
             return ResponseEntity.ok(new MessageResponse("Product update successfully"));
         }
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<?> deleteProductId(@PathVariable Long id){
         Optional<Product> product = productService.getProductById(id);
         if(product.isEmpty())

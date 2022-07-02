@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/auth/orderDetails")
+@RequestMapping("/api/orderDetails")
 public class OrderDetailsController {
 
     @Autowired

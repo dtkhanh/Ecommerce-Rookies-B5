@@ -13,13 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/auth/category")
+@RequestMapping("/api/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -30,7 +31,7 @@ public class CategoryController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping(value = "" )
+    @PostMapping(value = "/admin" )
     public ResponseEntity<?> createCategory(@RequestBody Category ctg){
        categoryService.createCategory(ctg);
        return ResponseEntity.ok(new MessageResponse("Category registered successfully!"));
@@ -39,7 +40,7 @@ public class CategoryController {
     public List<Category> readCategorys() {
         return categoryService.getCategory();
     }
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Category category) {
         if(categoryService.getCategoryId(id).isEmpty())
             throw new NotFoundProductByCategory.NotFoundProduct(id);
@@ -53,7 +54,9 @@ public class CategoryController {
             throw new NotFoundProductByCategory.NotFoundProduct(id);
         return ResponseEntity.ok().body(categoryService.getReferenceById(id));
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         Optional<Category> ca = categoryService.getCategoryId(id);
         if (!ca.isPresent()) {

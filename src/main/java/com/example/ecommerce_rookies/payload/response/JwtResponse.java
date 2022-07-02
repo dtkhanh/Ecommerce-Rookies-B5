@@ -19,8 +19,6 @@ public class JwtResponse {
     @Setter
     private String username;
 
-    @Setter
-    private String email;
 
     private String roles;
 

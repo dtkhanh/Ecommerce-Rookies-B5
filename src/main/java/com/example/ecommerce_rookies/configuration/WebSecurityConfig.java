@@ -3,6 +3,8 @@ package com.example.ecommerce_rookies.configuration;
 import com.example.ecommerce_rookies.jwt.JwtAuthEntryPoint;
 import com.example.ecommerce_rookies.jwt.JwtAuthTokenFilter;
 import com.example.ecommerce_rookies.jwt.JwtUtils;
+import com.example.ecommerce_rookies.models.Roles;
+import com.example.ecommerce_rookies.repository.RolesRepository;
 import com.example.ecommerce_rookies.services.impl.UserDetailsServicaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
@@ -63,63 +67,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**", "/api/public/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-//            	.antMatchers().permitAll()
+                .antMatchers("/api/*/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/*/user/**").hasRole("USER")
+                .antMatchers("/api/*/test/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated();
 
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
     }
 }
-
-
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.core.userdetails.User;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-//
-//@Configuration
-//@EnableWebSecurity
-//public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//
-//   @Override
-//   protected void configure(HttpSecurity http) throws Exception {
-//       http
-//               .authorizeRequests()
-//            .antMatchers().permitAll();
-////               .anyRequest().authenticated().and();
-////               .and()
-////               .formLogin()
-////               .loginPage("/login")
-////               .permitAll()
-////               .and()
-////               .logout()
-////               .permitAll();
-//   }
-//
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("USER")
-//                        .build();
-//
-//
-//.antMatchers("/api/*/admin/**").hasRole("ADMIN")
-//        .antMatchers("/api/*/user/**").hasAnyRole("USER","ADMIN")
-//        .antMatchers("/api/*/test/**").hasRole("ADMIN")
-//        return new InMemoryUserDetailsManager(user);
-//    }
-//}

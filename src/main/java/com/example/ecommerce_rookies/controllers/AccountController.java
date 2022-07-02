@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth/account")
+@RequestMapping("/api/account")
 public class AccountController {
     @Autowired
     private AccountService accountService;
@@ -25,12 +25,12 @@ public class AccountController {
     private InfomationRepository infomationRepository;
 
 
-    @GetMapping(value="")
+    @GetMapping("/admin")
     public ResponseEntity<?> readAccounts() {
         return ResponseEntity.ok().body(accountService.convertListDTO(accountService.getAccountList()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/{id}")
     public ResponseEntity<?> getAccountbyId(@PathVariable Long id) {
         Optional<Account> account = accountService.getAccountId(id);
         if(account.isEmpty())
@@ -38,7 +38,7 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.convertDTO(account.get()));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public  ResponseEntity<?> deleteAccountbyId(@PathVariable Long id){
         Optional<Account> account = accountService.getAccountId(id);
         if(account.isEmpty())
