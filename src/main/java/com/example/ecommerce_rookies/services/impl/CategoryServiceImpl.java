@@ -1,13 +1,11 @@
 package com.example.ecommerce_rookies.services.impl;
 
 import com.example.ecommerce_rookies.models.Category;
-import com.example.ecommerce_rookies.models.Product;
 import com.example.ecommerce_rookies.repository.CategoryRepository;
 import com.example.ecommerce_rookies.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getReferenceById(Long id) {
         return categoryRepository.getReferenceById(id);    }
+
 
 
 
