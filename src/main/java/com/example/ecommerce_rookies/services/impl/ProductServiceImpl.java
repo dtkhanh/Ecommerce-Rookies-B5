@@ -1,5 +1,6 @@
 package com.example.ecommerce_rookies.services.impl;
 
+import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import com.example.ecommerce_rookies.modelDTO.ProductDTO;
 import com.example.ecommerce_rookies.models.Category;
 import com.example.ecommerce_rookies.models.Product;
@@ -11,16 +12,20 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService) {
+        this.productRepository = productRepository;
+        this.categoryService = categoryService;
+    }
 
 
     @Override
@@ -39,7 +44,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public  Optional<Product> getProductById(Long id) { return productRepository.findById(id);}
+    public  Optional<Product> getProductById(Long id) {
+        if (productRepository.findById(id).isEmpty()) {
+            throw new NotFoundProductByCategory.NotFoundProduct(id);
+        }
+        return productRepository.findById(id);
+    }
 
     @Override
     public Product getProductByName(String name){
@@ -47,7 +57,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProductByCategoryID(Long cid) { productRepository.deleteAllByCategory_Id(cid); }
+    public void deleteProductByCategoryID(Long cid) {
+        if (productRepository.findById(cid).isEmpty()) {
+            throw new NotFoundProductByCategory.NotFoundProduct(cid);
+        }
+        productRepository.deleteAllByCategory_Id(cid);
+    }
 
     @Override
     public void deleteProductById(Long id) {
@@ -69,6 +84,17 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category.get());
         return product;
     }
+    @Override
+    public ProductDTO convertProductDTO(Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setCategoryid(product.getCategory().getCategoryname());
+        productDTO.setDescription(product.getDescription());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setImage(Collections.singletonList(product.getImageproduct()));
+        productDTO.setName(product.getTitle());
+
+        return productDTO;
+    }
 
     @Override
     public List<Product> top5ProductRatting(){
@@ -86,10 +112,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(long id, ProductDTO productDTO) {
-        Product prd = productRepository.getOne(id);
-        if(prd==null)
-            return null;
-        prd.setPrice(productDTO.getPrice());
+//        if (productRepository.findById(id).isEmpty()) {
+//            throw new NotFoundProductByCategory.NotFoundProduct(id);
+//        }
+        Product prd =productRepository.findById(id).get();
+        if(productRepository.findById(id).isEmpty())
+            throw  new NotFoundProductByCategory.NotFoundProduct(id);
+        prd.setTitle(productDTO.getName());
         List<String> image = productDTO.getImage();
         if(!image.isEmpty())
             prd.setImageproduct(image.get(0));

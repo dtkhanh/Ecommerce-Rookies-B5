@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
@@ -37,31 +37,23 @@ public class CategoryController {
        return ResponseEntity.ok(new MessageResponse("Category registered successfully!"));
     }
     @GetMapping(value="")
-    public List<Category> readCategorys() {
-        return categoryService.getCategory();
+    public ResponseEntity<?> readCategorys() {
+        return ResponseEntity.ok().body(categoryService.convertToDtoList(categoryService.getCategory()));
     }
     @PutMapping("/admin/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Category category) {
-        if(categoryService.getCategoryId(id).isEmpty())
-            throw new NotFoundProductByCategory.NotFoundProduct(id);
         categoryService.updateCategory(id, category);
         return ResponseEntity.ok().body(String.format("update category successfully"));
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategorybyId(@PathVariable Long id) {
         Optional<Category> ca = categoryService.getCategoryId(id);
-        if(ca.isEmpty())
-            throw new NotFoundProductByCategory.NotFoundProduct(id);
-        return ResponseEntity.ok().body(categoryService.getReferenceById(id));
+        return ResponseEntity.ok().body(categoryService.convertToDto(ca.get()));
     }
     @DeleteMapping("/admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         Optional<Category> ca = categoryService.getCategoryId(id);
-        if (!ca.isPresent()) {
-            throw new NotFoundCategory(id);
-        }
         Set<Product> list = ca.get().getProducts();
         if(!list.isEmpty()) {
             for (Product product : list) {

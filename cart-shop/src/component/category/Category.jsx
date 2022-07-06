@@ -1,4 +1,4 @@
-import React, {Component, useState} from "react"
+import React, {Component, useState, useEffect} from "react"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -6,7 +6,10 @@ import "slick-carousel/slick/slick-theme.css"
 import './category.css'
 import dataSlider from "../carousel/dataSlider";
 import {Link} from "react-router-dom";
-const Category = () => {
+import { toast } from "react-toastify";
+import {get} from "../../service/httpservice"
+
+export default function Category()  {
     const settings = {
         dots: false,
         infinite: true,
@@ -14,6 +17,20 @@ const Category = () => {
         slidesToShow: 4,
         slidesToScroll: 1,
     }
+    const [cateList, setCateList] = useState([])
+    const option = ["Idcate","NameCategory"]
+
+    function getListCategory(){
+        get('/category').then(response =>{
+            if(response.status === 200){
+                setCateList(response.data)
+            }
+        });
+    }
+    console.log(cateList)
+    useEffect(() => {
+        getListCategory();
+    }, []);
 
     return (
         <>
@@ -22,64 +39,14 @@ const Category = () => {
                         <h2>DANH MỤC SẢN PHẨM</h2>
                     </div>
                 </div>
-                {/*<div id="testimonial-card" className="card text-center" style={{marginTop: "10px"}}>*/}
-                {/*    <div className="card-header bg-light">*/}
-                {/*        <h2 className="my-0">DANH MUC</h2>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-                <Slider {...settings} >
-                    {dataSlider.map((obj, index) => (
+                <div className="buttons d-flex justify-content-center mb-5 pb-5">
+                        {cateList.map((obj, index) => (
+                            <button className="btn btn-outline-dark me-2" to={"/" + `${obj.id}`}> {obj.name.toUpperCase()}</button>
+                        ))}
+                </div>
 
-                        <div className="img_category" style={{
-                            width: "250px",
-                        }}>
-                            <div className="card">
-                                <Link to={"/" + `${obj.title}`} >
-                                    <img className="card-img-top"
-                                         src={process.env.PUBLIC_URL + `/Imgs/img${index + 1}.jpg`}/>
-                                </Link>
 
-                                <div className="card-body">
-                                    <h5>
-                                        <p
-                                            style={{
-                                                fontSize: "18px",
-                                                padding: "5px 0",
-                                                color: "black",
-                                                fontWeight: 400,
-                                                textAlign: "center",
-                                                textTransform: "uppercase",
-                                                letterSpacing: "2px",
-                                            }}
-                                        >
-                                            ${obj.title}
-                                        </p>
-                                    </h5>
-                                </div>
-                            </div>
-
-                            {/*<Link to={"/" + `${obj.title}`} >*/}
-                            {/*    <img className="image_category" src={process.env.PUBLIC_URL + `/Imgs/img${index + 1}.jpg`} alt='banner' width="100%" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMid slice"*/}
-                            {/*    ></img>*/}
-                            {/*</Link>*/}
-                            {/*<p*/}
-                            {/*    style={{*/}
-                            {/*        fontSize: "18px",*/}
-                            {/*        padding: "5px 0",*/}
-                            {/*        color: "gray",*/}
-                            {/*        fontWeight: 400,*/}
-                            {/*        textAlign: "center"*/}
-                            {/*    }}*/}
-                            {/*>*/}
-                            {/*    ${obj.title}*/}
-                            {/*</p>*/}
-                        </div>
-
-                    ))}
-                </Slider>
 
         </>
     )
 }
-
-export default Category

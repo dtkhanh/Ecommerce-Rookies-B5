@@ -166,3 +166,10 @@ p {
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+.top-5 h2 {
+    font-size: 22px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-bottom: 20px;
+}

@@ -1,7 +1,6 @@
 package com.example.ecommerce_rookies.services.impl;
 
 import com.example.ecommerce_rookies.models.Account;
-import com.example.ecommerce_rookies.models.Roles;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements  UserDetails{
 

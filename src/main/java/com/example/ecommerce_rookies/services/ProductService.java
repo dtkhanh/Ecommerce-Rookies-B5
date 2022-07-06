@@ -26,6 +26,8 @@ public interface ProductService {
     Product convertProduct(ProductDTO productDTO);
 
 
+    ProductDTO convertProductDTO(Product product);
+
     List<Product> top5ProductRatting();
 
     Product updateProduct(long id, ProductDTO productDTO);

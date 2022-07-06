@@ -1,13 +1,11 @@
 package com.example.ecommerce_rookies.modelDTO;
 
 
-import com.example.ecommerce_rookies.models.Orders;
-import com.example.ecommerce_rookies.models.Product;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter

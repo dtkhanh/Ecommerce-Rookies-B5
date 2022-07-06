@@ -34,6 +34,12 @@ public class ExceptionHandlerJson extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(sendErrorJson(httpStatus,exception), httpStatus);
     }
 
+    @ExceptionHandler(value = NotFoundCategory.NotFoundsave.class)
+    public ResponseEntity<?> sendErrorNotFoundSaveCategoryByName(NotFoundCategory.NotFoundsave exception){
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(sendErrorJson(httpStatus,exception), httpStatus);
+    }
+
     @ExceptionHandler(value = NotFoundProductByCategory.class)
     public ResponseEntity<?> sendErrorNotFoundProductByCategory(NotFoundProductByCategory exception){
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;

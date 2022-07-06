@@ -1,7 +1,6 @@
 package com.example.ecommerce_rookies.modelDTO;
 
-import com.example.ecommerce_rookies.models.Account;
-import com.example.ecommerce_rookies.models.Product;
+
 import lombok.Getter;
 import lombok.Setter;
 

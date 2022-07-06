@@ -1,0 +1,83 @@
+body {
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+}
+.btns button{
+    border:none;
+    background-color: rgb(39,39,39);
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+.btns button:hover{
+    color:#fcb941;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+p {
+    color: #8f8f8f;
+}
+
+/* Headings */
+.big-heading {
+    line-height: 1.5;
+}
+
+.section-heading {
+    font-size: 3rem;
+    line-height: 1.5;
+}
+
+/* Sections */
+.colored-section {
+    background-color: #142f43;
+    color: #fff;
+}
+
+/* Containers */
+.container-fluid {
+    padding: 7% 15%;
+}
+
+/* Title Section */
+#title .container-fluid {
+    padding: 3% 15%;
+    text-align: left;
+}
+
+/* Search bar */
+
+.text-product{
+    font-family: 'Red Hat Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 158%;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.0075em;
+
+    color: #000000;
+}
+.title-h1{
+    padding-bottom: 25px;
+    padding-top: 20px;
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.top-5 h2 {
+    font-size: 22px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-bottom: 20px;
+}

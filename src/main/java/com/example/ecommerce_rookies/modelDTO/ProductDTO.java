@@ -9,21 +9,23 @@ import java.util.List;
 @Setter
 public class ProductDTO {
 
-    private long id;
     private String name;
     private String description;
-    private Float price;
+    private float price;
 
     private List<String> image;
     private String categoryid;
 
 
-    public ProductDTO(long id, String name, String description, Float price, List<String> image, String categoryid) {
-        this.id = id;
+    public ProductDTO(String name, String description, float price, List<String> image, String categoryid) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
         this.categoryid = categoryid;
+    }
+
+    public ProductDTO() {
+
     }
 }

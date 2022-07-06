@@ -2,6 +2,7 @@ package com.example.ecommerce_rookies.services;
 
 import com.example.ecommerce_rookies.modelDTO.OrderDetailsDTO;
 import com.example.ecommerce_rookies.models.OrderDetails;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface OrderDetailsService {
     OrderDetails getOdersDetails(Long id);
 
     OrderDetails convertOrderDetails(Long id_account, OrderDetailsDTO orderDetailsDTO);
+
+
+    ResponseEntity<OrderDetails> addProductByCart(Long id_account, OrderDetailsDTO orderDetailsDTO);
 }

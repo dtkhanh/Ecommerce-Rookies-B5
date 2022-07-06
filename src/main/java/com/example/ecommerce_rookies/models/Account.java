@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -41,6 +39,12 @@ public class Account {
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private Set<BanUser> banUsers;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private Set<OrdersModel> ordersModels;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private Set<Cartmodel> cartmodels;
 
     public Account(String password, String username) {
         this.password = password;

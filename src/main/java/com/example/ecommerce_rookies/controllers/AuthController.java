@@ -1,37 +1,31 @@
 package com.example.ecommerce_rookies.controllers;
 
 import com.example.ecommerce_rookies.jwt.JwtUtils;
-import com.example.ecommerce_rookies.models.Account;
-import com.example.ecommerce_rookies.models.Infomation;
-import com.example.ecommerce_rookies.models.Orders;
-import com.example.ecommerce_rookies.models.Roles;
+import com.example.ecommerce_rookies.models.*;
 import com.example.ecommerce_rookies.payload.request.LoginRequest;
 import com.example.ecommerce_rookies.payload.request.SignupRequest;
 import com.example.ecommerce_rookies.payload.response.JwtResponse;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
 import com.example.ecommerce_rookies.repository.AccountRepository;
 import com.example.ecommerce_rookies.repository.InfomationRepository;
-import com.example.ecommerce_rookies.repository.OrdersRepository;
+import com.example.ecommerce_rookies.repository.CartmodelRepository;
 import com.example.ecommerce_rookies.repository.RolesRepository;
 import com.example.ecommerce_rookies.services.RolesService;
 import com.example.ecommerce_rookies.services.impl.UserDetailsImpl;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
@@ -43,7 +37,7 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    OrdersRepository ordersRepository;
+    CartmodelRepository cartmodelRepository;
 
     @Autowired
     RolesService rolesService;
@@ -93,8 +87,13 @@ public class AuthController {
             user.setRoles(roles.get());
             userRepository.save(user);
             Infomation info = new Infomation(signUpRequest.getUsername(), signUpRequest.getEmail(), null, null, null, userRepository.save(user));
-            Orders orders = new Orders(user.getId(),0, LocalDate.now(),user,null);
-            ordersRepository.save(orders);
+                Cartmodel cartmodel = new Cartmodel();
+                cartmodel.setTotal(0.0F);
+                cartmodel.setOrderdate(LocalDate.now());
+                cartmodel.setAccount(user);
+                cartmodel.setOrderDetails(null);
+                cartmodel.setOrdersModels(null);
+                cartmodelRepository.save(cartmodel);
             infomationRepository.save(info);
             return ResponseEntity.ok(new MessageResponse("User registered successfully!" + roles.get().getRolename()));
         }

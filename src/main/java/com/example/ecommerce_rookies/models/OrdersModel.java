@@ -1,5 +1,6 @@
 package com.example.ecommerce_rookies.models;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -11,27 +12,30 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="orderDetails")
-public class OrderDetails {
-
+@Table(name = "orders")
+public class OrdersModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "price")
-    private float price;
+    @Column(name="total")
+    private float total;
 
-    @Column(name= "quantity")
-    private int number;
+    @Column(name="quantity")
+    private int quantity;
 
     @ManyToOne
-    @JoinColumn(name="idOrders")
+    @JoinColumn(name="idAccount")
+    @JsonIgnore
+    private Account account;
+
+    @ManyToOne
+    @JoinColumn(name="idCart")
     @JsonIgnore
     private Cartmodel cartmodel;
-//
-    @OneToOne
-    @JoinColumn(name = "product_id" )
-    @JsonIgnore
-    private Product product;
+
+
+
+
 
 }

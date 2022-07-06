@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
 @RequestMapping("/api/products")
@@ -58,6 +59,7 @@ public class ProductController {
     }
     @GetMapping("")
     public ResponseEntity<?> GetProducts(){
+
         return ResponseEntity.ok().body(productService.findAll());
     }
 
@@ -72,10 +74,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductbyId(@PathVariable Long id){
         Optional<Product> product = productService.getProductById(id);
-        if (product.isEmpty()) {
-            throw new NotFoundProductByCategory.NotFoundProduct(id);
-        }
-        return ResponseEntity.ok().body(product.get());
+        return ResponseEntity.ok().body(productService.convertProductDTO(product.get()));
     }
     @GetMapping("/category/{category_id}")
     public ResponseEntity<?> adminGetProductByCategory(@PathVariable Long category_id) {
@@ -96,30 +95,21 @@ public class ProductController {
 
     @PutMapping("/admin/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
-        Optional<Product> product = productService.getProductById(id);
-        if(product.isEmpty())
-            throw  new NotFoundProductByCategory.NotFoundProduct(id);
-        else {
-            productService.updateProduct(id, productDTO);
-            return ResponseEntity.ok(new MessageResponse("Product update successfully"));
-        }
+        productService.updateProduct(id, productDTO);
+        return ResponseEntity.ok(new MessageResponse("Product update successfully"));
     }
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<?> deleteProductId(@PathVariable Long id){
         Optional<Product> product = productService.getProductById(id);
-        if(product.isEmpty())
-            throw new NotFoundProductByCategory.NotFoundProduct(id);
-        else {
-            Set<ProductComment> list = product.get().getProductComments();
-            if(!list.isEmpty()) {
-                for (ProductComment productComment : list) {
-                    productCommentRepository.deleteAllById(productComment.getId());
-                }
+        Set<ProductComment> list = product.get().getProductComments();
+        if(!list.isEmpty()) {
+            for (ProductComment productComment : list) {
+                productCommentRepository.deleteAllById(productComment.getId());
             }
-            galleryRepository.deleteGalleryByProduct_Id(id);
-            productService.deleteProductById(id);
-          return ResponseEntity.ok().body(String.format("Delete product successfully"));
         }
+        galleryRepository.deleteGalleryByProduct_Id(id);
+        productService.deleteProductById(id);
+        return ResponseEntity.ok().body(String.format("Delete product successfully"));
     }
 
     @GetMapping("/sort")
