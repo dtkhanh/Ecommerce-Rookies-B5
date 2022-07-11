@@ -143,7 +143,7 @@ const FlashProduct = ({ productItems , check}) => {
                                     ${obj.price}
                                 </p>
                                 <div className="btns">
-                                    <button type="button-cart" className="col-6 py-2">
+                                    <button onClick={()=> addToCart(obj)} type="button-cart" className="col-6 py-2">
                                         <i className="fa fa-cart-plus"></i> Add to Cart
                                     </button>
                                     <Link to={"/product/"+ obj.id} className="btn btn-warning" style={{marginLeft:"20px",textAlign:"right"}}>

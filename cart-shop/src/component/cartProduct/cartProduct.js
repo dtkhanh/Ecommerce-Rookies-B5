@@ -96,9 +96,17 @@ export default function CartProduct()  {
                                                                     <i className="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
-                                                            <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                                <h6 className="mb-0">{obj.price}</h6>
-                                                            </div>
+                                                            {numberProduct.map(number=>(
+
+                                                                number.id_product === obj.id.toString() ?
+
+                                                                    <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                                        <h6 className="mb-0">{obj.price * number.number}</h6>
+                                                                    </div>
+                                                                    :
+                                                                    null
+
+                                                            ))}
                                                             <div className="col-md-1 col-lg-1 col-xl-1 text-end">
                                                                 <a href="#!" className="text-muted"><i
                                                                     className="fa fa-times"></i></a>
