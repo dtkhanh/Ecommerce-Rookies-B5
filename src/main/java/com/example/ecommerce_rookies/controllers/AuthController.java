@@ -1,5 +1,6 @@
 package com.example.ecommerce_rookies.controllers;
 
+import com.example.ecommerce_rookies.exception.account.NotFoundAccount;
 import com.example.ecommerce_rookies.jwt.JwtUtils;
 import com.example.ecommerce_rookies.models.*;
 import com.example.ecommerce_rookies.payload.request.LoginRequest;
@@ -10,6 +11,7 @@ import com.example.ecommerce_rookies.repository.AccountRepository;
 import com.example.ecommerce_rookies.repository.InfomationRepository;
 import com.example.ecommerce_rookies.repository.CartmodelRepository;
 import com.example.ecommerce_rookies.repository.RolesRepository;
+import com.example.ecommerce_rookies.services.AccountService;
 import com.example.ecommerce_rookies.services.RolesService;
 import com.example.ecommerce_rookies.services.impl.UserDetailsImpl;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,7 +30,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -57,6 +59,10 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    private  AccountRepository accountRepository;
+
+
     public AuthController (AuthenticationManager authenticationManager, AccountRepository userRepository,
                            RolesRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
@@ -84,6 +90,7 @@ public class AuthController {
                 strRoles = "1";
             Optional<Roles> roles = rolesService.getRoleId(Long.valueOf(strRoles));
             Optional<Roles> optionalRole = roleRepository.findById(Long.parseLong(strRoles));
+            user.setCheck_Account(true);
             user.setRoles(roles.get());
             userRepository.save(user);
             Infomation info = new Infomation(signUpRequest.getUsername(), signUpRequest.getEmail(), null, null, null, userRepository.save(user));
@@ -100,21 +107,40 @@ public class AuthController {
     }
     @PostMapping("/signin")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        List<Account> accounts = accountRepository.findAll();
+        boolean check = true;
+        for(Account account : accounts){
+            Optional<Infomation> infomation = infomationRepository.findById(account.getId());
+            System.out.println("hahahahaha" + infomation.get().getUsername());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String jwt = jwtUtils.generateJwtToken(authentication);
+            if(Objects.equals(account.getUsername(), loginRequest.getUsername())){
+                System.out.println("hahahahaha1");
+                if(!account.isCheck_Account()) {
+                    check = false;
+                    System.out.println("hahahahaha");
+                }
 
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+            }
+        }
+        if(check) {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                roles.get(0)));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(),
+                    roles.get(0)));
+        }
+        throw new  NotFoundAccount.ExitsAccount();
     }
 //    @PostMapping("/signin")
 //    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

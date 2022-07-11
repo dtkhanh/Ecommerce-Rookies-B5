@@ -15,14 +15,16 @@ import com.example.ecommerce_rookies.services.ProductCommentService;
 import com.example.ecommerce_rookies.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 @RestController
-@RequestMapping("/api/auth/productcomment")
+@RequestMapping("/api/productcomment")
 public class ProductCommentController {
 
     @Autowired
@@ -46,9 +48,11 @@ public class ProductCommentController {
         Optional<ProductComment> productComment = productCommentRepository.findById(id);
         RattingDTO rattingDTO = productCommentService.convertDTO(productComment.get());
         return ResponseEntity.ok().body(rattingDTO);
-
     }
-    @GetMapping()
+    @GetMapping("/product/{id_product}")
+    public ResponseEntity<?> getProdctCommnetByIdProduct(@PathVariable Long id_product){
+        return productCommentService.listRatingProduct(id_product);
+    }
 
     public ResponseEntity<?> getProductComments(){
 //        return productCommentService.convertListDTO(productCommentService.getProductCommentList());
@@ -56,6 +60,8 @@ public class ProductCommentController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('USER')")
+
     public ResponseEntity<?> createProductComment(@RequestBody ProductCommentDTO productCommentDTO){
         ProductComment productComment = new ProductComment();
         Optional<Account> account = accountService.getAccountId(Long.valueOf(productCommentDTO.getId_account()));

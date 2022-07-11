@@ -4,6 +4,7 @@ import com.example.ecommerce_rookies.modelDTO.OrdersDTO;
 import com.example.ecommerce_rookies.models.Account;
 import com.example.ecommerce_rookies.models.OrderDetails;
 import com.example.ecommerce_rookies.models.Cartmodel;
+import com.example.ecommerce_rookies.models.Product;
 import com.example.ecommerce_rookies.repository.AccountRepository;
 import com.example.ecommerce_rookies.repository.CartmodelRepository;
 import com.example.ecommerce_rookies.services.CartmodelService;
@@ -35,11 +36,11 @@ public class CartmodelServiceImpl implements CartmodelService {
         ordersDTO.setId_account(account.get().getId());
         ordersDTO.setName_account(account.get().getUsername());
         Set<OrderDetails> orderDetails = orders.get().getOrderDetails();
-        List<String> nameproduct = new ArrayList<>();
+        List<Product> nameproduct = new ArrayList<>();
         for(OrderDetails orderDetails1 : orderDetails){
-            nameproduct.add(orderDetails1.getProduct().getTitle() + " id: " + orderDetails1.getProduct().getId());
+            nameproduct.add(orderDetails1.getProduct());
         }
-        ordersDTO.setProduct(nameproduct);
+        ordersDTO.setProducts(nameproduct);
         return ordersDTO;
 
 //        private float total;
@@ -64,9 +65,9 @@ public class CartmodelServiceImpl implements CartmodelService {
         Cartmodel cartmodel= cartmodelRepository.getReferenceById(id_cart);
         if(cartmodel == null)
             ResponseEntity.ok().body(String.format("No value cart!"));
-        List<String> list = new ArrayList<>();
+        List<Product> list = new ArrayList<>();
         for(OrderDetails orderDetails : cartmodel.getOrderDetails()){
-            list.add(orderDetails.getProduct().getTitle()+" id: "+orderDetails.getProduct().getId());
+            list.add(orderDetails.getProduct());
         }
         OrdersDTO cartDTO = new OrdersDTO(id_cart,cartmodel.getTotal(),cartmodel.getOrderdate(),id_account,accountRepository.findById(id_account).get().getUsername(),list);
         return  cartDTO;

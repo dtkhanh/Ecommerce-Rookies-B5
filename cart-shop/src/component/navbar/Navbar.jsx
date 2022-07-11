@@ -4,7 +4,7 @@ import { IconContext } from "react-icons"
 import { AiOutlineSearch } from 'react-icons/ai'
 import {AiOutlineShoppingCart} from 'react-icons/ai'
 import {useNavigate} from "react-router-dom";
-import {get} from "../../service/httpservice"
+import {get, getwithAuthtication} from "../../service/httpservice"
 
 
 import {
@@ -18,10 +18,22 @@ import './navbar.css'
 import {useEffect} from "react";
 import {checkAccountTrue} from "../../service/Authentication";
 export default function Navbar()  {
-    function handleSubmit(e) {
-        e.preventDefault();
-        console.log('You clicked submit.');
-    }
+
+    const url_rattings ="/account/"
+    const [account , setAccount] = useState([])
+        function getAccount() {
+            if(JSON.parse(localStorage.getItem('User')) !== null) {
+                getwithAuthtication(url_rattings + JSON.parse(localStorage.getItem('User')).id).then(response => {
+                    if (response.status === 200) {
+                        setAccount(response.data);
+                        console.log(account)
+                    }
+                });
+            }
+            else{}
+        }
+
+
 
     const [cateList, setCateList] = useState([])
     function getListCategory(){
@@ -33,6 +45,7 @@ export default function Navbar()  {
     }
 
     useEffect(() => {
+        getAccount();
         getListCategory();
     }, []);
 
@@ -64,7 +77,9 @@ export default function Navbar()  {
 
                         <div className="order-lg-2 d-flex nav-btns">
                             <button type="button" className="btn position-relative" >
-                                <i className="fa fa-shopping-cart"></i>
+                                <Link to="/cart">
+                                  <i className="fa fa-shopping-cart"></i>
+                                </Link>
                                 <span
                                     className="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
                             </button>
@@ -79,7 +94,12 @@ export default function Navbar()  {
                             {/*</button>*/}
                                 {isLogin ?
                                     <div>
-                                        <img className="avatar rounded-circle" src="/avatar1.png" alt='' style={{marginLeft: "14px"}}/>
+                                        {JSON.parse(localStorage.getItem('User')).id === null ? <></>:
+                                            <Link to="/profile">
+                                                <img className="avatar rounded-circle" src={account.avatar} alt=''
+                                                     style={{marginLeft: "14px"}}/>
+                                            </Link>
+                                        }
                                         <button className="btn" >
                                             <Link className="dropdown-item" to="/logout">Đăng xuất</Link>
                                         </button>
@@ -112,7 +132,7 @@ export default function Navbar()  {
                                        role="button" aria-expanded="true">Category</Link>
                                     <ul className="dropdown-menu">
                                         {cateList.map((obj, index) => (
-                                            <li><Link className="dropdown-item" to={'/' + obj.id}>{obj.name}</Link></li>
+                                            <li><Link className="dropdown-item" to={'/category/' + obj.id}>{obj.name}</Link></li>
                                         ))}
                                     </ul>
                                 </li>

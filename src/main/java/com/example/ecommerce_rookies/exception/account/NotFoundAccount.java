@@ -9,5 +9,9 @@ public class NotFoundAccount extends RuntimeException{
             super("Can not ratting product because you have rated before !!!" + id );
         }
 
+        public ExitsAccount() {
+            super("Account block" );
+        }
+
     }
 }

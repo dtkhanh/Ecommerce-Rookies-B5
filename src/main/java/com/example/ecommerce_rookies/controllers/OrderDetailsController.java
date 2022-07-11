@@ -10,11 +10,13 @@ import com.example.ecommerce_rookies.repository.ProductRepository;
 import com.example.ecommerce_rookies.services.OrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.Set;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/orderDetails")
 public class OrderDetailsController {
@@ -50,6 +52,12 @@ public class OrderDetailsController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderDetailsbyId(@PathVariable Long id){
         Optional<OrderDetails> orderDetails = orderDetailsRepository.findById(id);
-        return ResponseEntity.ok().body(orderDetails.get().getProduct());
+        return ResponseEntity.ok().body(orderDetails.get());
     }
+    @GetMapping("/account/{id_account}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getOderDetailQuantity(@PathVariable Long id_account ){
+        return ResponseEntity.ok().body(orderDetailsService.getOrderDetailByTdAccountIdProduct(id_account));
+    }
+
 }

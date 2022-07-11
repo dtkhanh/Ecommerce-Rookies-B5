@@ -15,14 +15,16 @@ public class ProductDTO {
 
     private List<String> image;
     private String categoryid;
+    private float rating;
 
 
-    public ProductDTO(String name, String description, float price, List<String> image, String categoryid) {
+    public ProductDTO(String name, String description, float price, List<String> image, String categoryid,float rating) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
         this.categoryid = categoryid;
+        this.rating = rating;
     }
 
     public ProductDTO() {

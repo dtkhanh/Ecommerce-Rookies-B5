@@ -1,5 +1,5 @@
 import React, {Component, useState, useEffect} from "react"
-import FlashProduct from "./productDetails/FlashProduct"
+import FlashProduct from "./productCard/FlashProduct"
 import './product.css'
 import {get} from "../../service/httpservice";
 
@@ -14,9 +14,10 @@ export default function Product() {
     }, []);
 
     function getListProduct(){
-        get('/products').then(response =>{
+        get('/products/sort').then(response =>{
             if(response.status === 200){
                 setProductList(response.data)
+                console.log(productList)
             }
         });
     }
@@ -38,7 +39,7 @@ export default function Product() {
                             </div>
                         </div>
                     </div>
-                    <FlashProduct productItems={productList} />
+                    <FlashProduct productItems={productList} check={false}/>
                 </div>
                 {/*<div id="testimonial-card" className="card text-center">*/}
                 {/*    <div className="card-body">*/}

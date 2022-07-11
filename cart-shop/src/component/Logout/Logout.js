@@ -21,7 +21,7 @@ const Logout = () => {
                 <h3 className="fw-normal mb-3 pb-3" style={{letterSpacing: "1px"}}>Log in</h3>
 
                 <div className="pt-1 mb-4">
-                    <button className="btn btn-info btn-lg btn-block" type="submit">Login
+                    <button className="btn btn-info btn-lg btn-block" type="submit">Logout
                     </button>
                 </div>
 

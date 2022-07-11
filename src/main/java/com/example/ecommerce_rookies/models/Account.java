@@ -33,6 +33,8 @@ public class Account {
     @JoinColumn(name = "roleId",nullable = false)
     private Roles roles;
 
+    @Column(name="activity")
+    private boolean check_Account ;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
     private Set<ProductComment> productComment;

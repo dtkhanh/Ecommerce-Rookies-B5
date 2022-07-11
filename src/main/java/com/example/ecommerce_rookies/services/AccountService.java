@@ -1,6 +1,7 @@
 package com.example.ecommerce_rookies.services;
 
 import com.example.ecommerce_rookies.modelDTO.AccountDto;
+import com.example.ecommerce_rookies.modelDTO.SetActivity;
 import com.example.ecommerce_rookies.models.Account;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface AccountService {
     AccountDto convertDTO(Account account);
 
     Account updateAccount(long id, AccountDto accountDto);
+
+    Account updateActivityAccount(long id, SetActivity setActivity);
 }

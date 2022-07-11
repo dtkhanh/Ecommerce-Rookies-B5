@@ -10,15 +10,7 @@ import { toast } from "react-toastify";
 import {get} from "../../service/httpservice"
 
 export default function Category()  {
-    const settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-    }
     const [cateList, setCateList] = useState([])
-    const option = ["Idcate","NameCategory"]
 
     function getListCategory(){
         get('/category').then(response =>{
@@ -41,7 +33,7 @@ export default function Category()  {
                 </div>
                 <div className="buttons d-flex justify-content-center mb-5 pb-5">
                         {cateList.map((obj, index) => (
-                            <button className="btn btn-outline-dark me-2" to={"/" + `${obj.id}`}> {obj.name.toUpperCase()}</button>
+                            <Link className="btn btn-outline-dark me-2" to={"/category/" + `${obj.id}`}> {obj.name.toUpperCase()}</Link>
                         ))}
                 </div>
 

@@ -2,6 +2,7 @@ import React, {useMemo, useState} from 'react';
 import ReactStars from "react-rating-stars-component";
 
 const Rating = ({ count}) => {
+
     const thirdExample = {
         size: 20,
         count: 5,

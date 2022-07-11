@@ -16,5 +16,7 @@ public interface OrderDetailsService {
     OrderDetails convertOrderDetails(Long id_account, OrderDetailsDTO orderDetailsDTO);
 
 
+    List<OrderDetailsDTO> getOrderDetailByTdAccountIdProduct(Long Id_Account);
+
     ResponseEntity<OrderDetails> addProductByCart(Long id_account, OrderDetailsDTO orderDetailsDTO);
 }

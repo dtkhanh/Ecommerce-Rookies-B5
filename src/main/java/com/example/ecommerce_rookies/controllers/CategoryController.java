@@ -57,7 +57,6 @@ public class CategoryController {
         Set<Product> list = ca.get().getProducts();
         if(!list.isEmpty()) {
             for (Product product : list) {
-                if(!product.getGallery().isEmpty())
                     galleryRepository.deleteGalleryByProduct_Id(product.getId());
             }
         }

@@ -1,0 +1,27 @@
+
+header {
+    background-color: #00bcd4;
+    padding: 10px 15px;
+}
+.navbar{
+    -webkit-box-shadow: 0 3px 9px 3px #0dcaf0;
+    box-shadow: 0 3px 9px 3px #0dcaf0;
+}
+
+.avatar{
+    width: 35px;
+    height: 35px;
+}
+.container .btn{
+    margin-left: 20px;
+    border-radius: 50px;
+}
+.navbar-nav {
+    margin-left: 150px;
+}
+.navbar-nav .nav-item{
+    margin-left: 20px;
+}
+.btn_nav{
+    margin-left: 20px;
+}

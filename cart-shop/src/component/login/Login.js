@@ -1,16 +1,18 @@
 import React, {Component, useState, useEffect} from "react"
 import {Form, FormGroup, Label, Navbar} from 'reactstrap'
 import { toast } from "react-toastify";
+import swal from 'sweetalert';
 
 import "./login.css"
 
 import {Button, Input} from "antd";
-import {post} from "../../service/httpservice";
+import {post, postlogin} from "../../service/httpservice";
 import {checkAdminTrue, checkUserTrue} from "../../service/Authentication";
 import {getCookie} from "../../service/Cookie";
 import Product from "../product/Product";
 import { useNavigate } from 'react-router-dom';
 import data from "../Data";
+import Help from "../about/help";
 
 const Login = (props) => {
     // const [username, setUsername]= useState("")
@@ -36,21 +38,33 @@ const Login = (props) => {
     };
     const signInHandle = (e) => {
         e.preventDefault();
-        post(`/auth/signin`, lognin)
+        postlogin(`/auth/signin`, lognin)
             .then((response) => {
                 if (response.status === 200) {
                     console.log(response.data.name)
-                    toast.success(`Welcome back my friend, ${response.data.name}`, {
-                        position: "top-right",
-                        autoClose: 3000,
-                    });
                     localStorage.setItem("User", JSON.stringify(response.data))
                     if(response.data.roles ==="ROLE_ADMIN"){
-                        navigate('/');
+                        swal({
+                            title: "Good job!",
+                            text: "You clicked the button!",
+                            icon: "success"
+                        }).then( navigate('/admin'))
+                    }
+                    if(response.data.roles ==="ROLE_USER"){
+                        swal({
+                            title: "Good job!",
+                            text: "You clicked the button!",
+                            icon: "success"
+                        }).then( navigate('/'))
                     }
 
                 }
             }).catch((error) => {
+            swal({
+                icon: 'error',
+                title: error.response.data.message,
+                footer: '<a href="">Why do I have this issue?</a>'
+            })
             let message = "Sign in failed!";
             if (!error.response) message = "Connection error! Please try again later";
             else {
@@ -79,7 +93,6 @@ const Login = (props) => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-sm-6 text-black">
-
                             <div className="px-5 ms-xl-4">
                                 <i className="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style={{color: "#709085"}}></i>
                                 <span className="h1 fw-bold mb-0">Logo</span>
@@ -123,7 +136,7 @@ const Login = (props) => {
 
                                     <p className="small mb-5 pb-lg-2"><a className="text-muted" href="#!">Forgot
                                         password?</a></p>
-                                    <p>Don't have an account? <a href="#!" className="link-info">Register here</a>
+                                    <p>Don't have an account? <a href="/register" className="link-info">Register here</a>
                                     </p>
 
                                 </form>
@@ -132,13 +145,15 @@ const Login = (props) => {
                         </div>
 
                         <div className="col-sm-6 px-0 d-none d-sm-block">
-                            <img
+                            <img style={{height:"500px"}}
                                 src="https://mona.media/wp-content/uploads/2021/07/ecommerce.png"
-                                alt="Login image" className="w-100 vh-100"/>
+                                alt="Login image"/>
                         </div>
                     </div>
                 </div>
             </section>
+            <Help/>
+
         </>
     )
 }

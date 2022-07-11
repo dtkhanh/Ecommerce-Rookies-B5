@@ -2,7 +2,6 @@ package com.example.ecommerce_rookies.services.impl;
 
 import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import com.example.ecommerce_rookies.modelDTO.OrderDetailsDTO;
-import com.example.ecommerce_rookies.modelDTO.OrdersDTO;
 import com.example.ecommerce_rookies.models.Account;
 import com.example.ecommerce_rookies.models.OrderDetails;
 import com.example.ecommerce_rookies.models.Cartmodel;
@@ -65,6 +64,21 @@ public class OrderDetailsServicelmpl implements OrderDetailsService {
         orderDetails.setProduct(product.get());
 
         return orderDetails;
+    }
+    @Override
+    public List<OrderDetailsDTO> getOrderDetailByTdAccountIdProduct(Long Id_Account){
+        List<OrderDetailsDTO> list1 = new ArrayList<>();
+
+        List<OrderDetails> list = orderDetailsRepository.findAll();
+        for(OrderDetails orderDetails :list){
+            if(orderDetails.getCartmodel().getId() == Id_Account){
+                OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+                orderDetailsDTO.setId_product(String.valueOf(orderDetails.getProduct().getId()));
+                orderDetailsDTO.setNumber(orderDetails.getNumber());
+                list1.add(orderDetailsDTO);
+            }
+        }
+        return list1;
     }
 
     @Override

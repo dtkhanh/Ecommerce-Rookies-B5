@@ -1,0 +1,22 @@
+.review-card{
+    border: 1px solid #333;
+    border-width: medium;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-inline: 5rem;
+    padding: 1rem;
+    text-align: left;
+}
+.btnInput-card{
+    text-align: right;
+}
+.rateNum{
+    text-align: left;
+}
+.inputForm{
+    height: 120px;
+}
+.name-review{
+    margin:0;
+    text-align: left;
+}

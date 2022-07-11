@@ -18,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
-
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -43,6 +43,7 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
     @PostMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public  ResponseEntity<?> createCategory( @RequestBody ProductDTO prd){
        Product product = productService.createProduct(productService.convertProduct(prd));
        List<String> image = prd.getImage();

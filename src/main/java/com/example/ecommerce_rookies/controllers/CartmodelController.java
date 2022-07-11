@@ -11,13 +11,14 @@ import com.example.ecommerce_rookies.repository.CartmodelRepository;
 import com.example.ecommerce_rookies.services.CartmodelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.Set;
-
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth/cart")
+@RequestMapping("/api/cart")
 public class CartmodelController {
     @Autowired
     CartmodelRepository cartmodelRepository;
@@ -42,6 +43,7 @@ public class CartmodelController {
         return ResponseEntity.ok().body(ordersDTO);
     }
     @GetMapping("/account/{id_account}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getCartByIdAccount(@PathVariable Long id_account){
         return ResponseEntity.ok().body(cartmodelService.getCartByIdAccount(id_account));
     }
