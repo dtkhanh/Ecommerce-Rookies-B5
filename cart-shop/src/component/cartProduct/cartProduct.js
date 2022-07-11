@@ -53,7 +53,7 @@ export default function CartProduct()  {
                                             <div className="p-5">
                                                 <div className="d-flex justify-content-between align-items-center mb-5">
                                                     <h1 className="fw-bold mb-0 text-black">Shopping Cart</h1>
-                                                    <h6 className="mb-0 text-muted">3 items</h6>
+                                                    <h6 className="mb-0 text-muted">{product.length} items</h6>
                                                 </div>
                                                 {product.map(obj=>(
                                                     <div className="my-4">
@@ -99,9 +99,8 @@ export default function CartProduct()  {
                                                             {numberProduct.map(number=>(
 
                                                                 number.id_product === obj.id.toString() ?
-
                                                                     <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                                        <h6 className="mb-0">{obj.price * number.number}</h6>
+                                                                        <h6 className="mb-0">{obj.price * number.number} VND</h6>
                                                                     </div>
                                                                     :
                                                                     null
@@ -122,8 +121,8 @@ export default function CartProduct()  {
                                                 <div className="my-4">
 
                                                     <div className="d-flex justify-content-between mb-4">
-                                                        <h5 className="text-uppercase">items 3</h5>
-                                                        <h5>€ 132.00</h5>
+                                                        <h5 className="text-uppercase">items {product.length}</h5>
+                                                        <h5>{cart.total}VND</h5>
                                                     </div>
 
                                                     <h5 className="text-uppercase mb-3">Shipping</h5>
