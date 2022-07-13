@@ -26,7 +26,8 @@ public class AccountController {
     }
 
 
-    @GetMapping("/admin")
+    @GetMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> readAccounts() {
         return ResponseEntity.ok().body(accountService.convertListDTO(accountService.getAccountList()));
     }

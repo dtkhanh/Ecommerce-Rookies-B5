@@ -34,7 +34,7 @@ const CategoriesAdmin = () => {
             .then((willDelete) => {
                 if (willDelete) {
                     console.log(item)
-                    deleteurl(url + `/admin/` + item.id)
+                    deleteurl(url + `/` + item.id)
                         .then((response) => {
                             if (response.status === 200) {
                                 swal({

@@ -31,7 +31,7 @@ public class CategoryController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping(value = "/admin" )
+    @PostMapping(value = "" )
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createCategory(@RequestBody Category ctg){
        categoryService.createCategory(ctg);
@@ -41,7 +41,7 @@ public class CategoryController {
     public ResponseEntity<?> readCategorys() {
         return ResponseEntity.ok().body(categoryService.convertToDtoList(categoryService.getCategory()));
     }
-    @PutMapping("/admin/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Category category) {
         categoryService.updateCategory(id, category);
@@ -52,7 +52,7 @@ public class CategoryController {
         Optional<Category> ca = categoryService.getCategoryId(id);
         return ResponseEntity.ok().body(categoryService.convertToDto(ca.get()));
     }
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         Optional<Category> ca = categoryService.getCategoryId(id);

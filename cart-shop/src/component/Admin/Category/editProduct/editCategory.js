@@ -41,7 +41,7 @@ export default function EditCategory()  {
         const body = JSON.stringify({
             categoryname: category.categoryname,
         });
-        put(url + `/admin/`+id, body)
+        put(url + '/' +id, body)
             .then((response) => {
                 if (response.status === 200) {
                     swal({

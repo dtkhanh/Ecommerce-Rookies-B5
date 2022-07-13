@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth/infomation")
+@RequestMapping("/api/infomation")
 public class InfomationController {
     @Autowired
     private InfomationRepository infomationRepository;

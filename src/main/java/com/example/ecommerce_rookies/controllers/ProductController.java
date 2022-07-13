@@ -68,7 +68,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.findAll());
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<?> getProductByName(@PathVariable String name){
         Product product = productService.getProductByName(name);
         if(product == null)
@@ -87,23 +87,25 @@ public class ProductController {
             return  ResponseEntity.ok().body(String.format("Could not find category with id:" + category_id));
         List<Product> listproduct;
         List<Product> newlistproduct = new ArrayList<>();
-            listproduct = productService.findAll();
-            for (Product product : listproduct) {
-                if (product.getCategory().getId() == category_id)
-                    newlistproduct.add(product);
-            }
-            if(newlistproduct.isEmpty())
-                throw  new NotFoundProductByCategory();
-            else
-                return ResponseEntity.ok().body((newlistproduct));
+        listproduct = productService.findAll();
+        for (Product product : listproduct) {
+            if (product.getCategory().getId() == category_id)
+                newlistproduct.add(product);
+        }
+        if(newlistproduct.isEmpty())
+            throw  new NotFoundProductByCategory();
+        else
+            return ResponseEntity.ok().body((newlistproduct));
     }
 
-    @PutMapping("/admin/{id}")
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
         productService.updateProduct(id, productDTO);
         return ResponseEntity.ok(new MessageResponse("Product update successfully"));
     }
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteProductId(@PathVariable Long id){
         Optional<Product> product = productService.getProductById(id);
         Set<ProductComment> list = product.get().getProductComments();

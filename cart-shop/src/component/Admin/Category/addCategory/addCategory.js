@@ -23,7 +23,7 @@ export default function AddCategory()  {
         const body = JSON.stringify({
             categoryname: category.categoryname,
         });
-        post(url + `/admin`, body)
+        post(url , body)
             .then((response) => {
                 if (response.status === 200) {
                     swal({

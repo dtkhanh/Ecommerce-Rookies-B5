@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 
 
 const AccountAdmin = () => {
-    const url ='/account/admin'
+    const url ='/account'
     const [accountList , setAccountList] = useState([])
     const navigate = useNavigate();
     function getListAccount(){
@@ -50,7 +50,6 @@ const AccountAdmin = () => {
                                     title: "Update Account succeeded!",
                                     icon: "success"
                                 })
-                                    // .then( window.location.reload(true))
                                 getListAccount();
 
                             }

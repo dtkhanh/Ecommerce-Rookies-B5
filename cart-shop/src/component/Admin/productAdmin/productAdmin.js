@@ -67,7 +67,7 @@ export default function ProductAdmin()  {
             .then((willDelete) => {
                 if (willDelete) {
                     console.log(item)
-                    deleteurl( `/products/admin/` + item.id)
+                    deleteurl( `/products/` + item.id)
                         .then((response) => {
                             if (response.status === 200) {
                                 swal({

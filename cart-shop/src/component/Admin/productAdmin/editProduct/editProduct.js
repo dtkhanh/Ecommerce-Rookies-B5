@@ -109,7 +109,7 @@ export default function EditProduct({props})  {
             image: product.image
         });
         console.log("haha" + body);
-        put('/products/admin/'+id, body)
+        put('/products/'+id, body)
             .then((response) => {
                 if (response.status === 200) {
                     swal({
