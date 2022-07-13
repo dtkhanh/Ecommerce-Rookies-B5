@@ -1,14 +1,10 @@
 import React, {Component, useState, useEffect} from "react"
-import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 
 import './category.css'
-import dataSlider from "../carousel/dataSlider";
 import {Link} from "react-router-dom";
-import { toast } from "react-toastify";
 import {get} from "../../service/httpservice"
-import {getCookie} from "../../service/Cookie";
 
 export default function Category()  {
     const [cateList, setCateList] = useState([])
@@ -37,8 +33,6 @@ export default function Category()  {
                             <Link className="btn btn-outline-dark me-2" to={"/category/" + `${obj.id}`}> {obj.name.toUpperCase()}</Link>
                         ))}
                 </div>
-
-
 
         </>
     )

@@ -1,8 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Navbar  from "./component/navbar/Navbar";
-import Carousel from "./component/carousel/carousel";
-import Product from "./component/product/Product";
-import Category from "./component/category/Category";
 import AddProduct from "./component/Admin/productAdmin/addProduct/addProduct"
 import ProductAdmin from "../src/component/Admin/productAdmin/productAdmin"
 import {
@@ -13,7 +9,6 @@ import {
 import Login from "./component/login/Login";
 import './App.css'
 
-import {checkAccountTrue} from "./service/Authentication";
 import Logout from "./component/Logout/Logout";
 import HomePage from "./Page/Homepage";
 import AdminPage from "./Page/adminPage";
@@ -21,7 +16,6 @@ import EditProduct from "./component/Admin/productAdmin/editProduct/editProduct"
 import CategoryAdmin from "./component/Admin/Category/categoryAdmin";
 import AddCategory from "./component/Admin/Category/addCategory/addCategory";
 import EditCategory from "./component/Admin/Category/editProduct/editCategory"
-import Help from "./component/about/help"
 import ProductDetail from "./component/product/productDetails/productDetails";
 import ProductByCategory from "./component/category/productCategory/productCategory";
 import Register from "./component/register/registerAccount";

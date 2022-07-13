@@ -7,7 +7,6 @@ const Logout = () => {
 
     const navigate = useNavigate();
 
-
     const signOutHandle = (e) => {
         e.preventDefault();
         localStorage.clear();
@@ -16,7 +15,6 @@ const Logout = () => {
 
     return (
         <>
-
             <form id="signin-form" onSubmit={signOutHandle} style={{width: "23rem"}}>
                 <h3 className="fw-normal mb-3 pb-3" style={{letterSpacing: "1px"}}>Log in</h3>
 

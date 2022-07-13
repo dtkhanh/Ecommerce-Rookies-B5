@@ -4,7 +4,6 @@ import React, {Component, useState, useEffect} from "react"
 import "./profileUser.css"
 import Navbar from "../navbar/Navbar";
 import {get, getwithAuthtication, post} from "../../service/httpservice";
-import swal from "sweetalert";
 import {Link} from "react-router-dom";
 
 
@@ -29,7 +28,6 @@ const ProfileUser = (props) => {
     useEffect(() => {
         getAccount();
     }, []);
-
 
 
     return (

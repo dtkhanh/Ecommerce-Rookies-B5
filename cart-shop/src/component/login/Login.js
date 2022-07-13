@@ -5,18 +5,11 @@ import swal from 'sweetalert';
 
 import "./login.css"
 
-import {Button, Input} from "antd";
 import {post, postlogin} from "../../service/httpservice";
-import {checkAdminTrue, checkUserTrue} from "../../service/Authentication";
-import {getCookie} from "../../service/Cookie";
-import Product from "../product/Product";
 import { useNavigate } from 'react-router-dom';
-import data from "../Data";
 import Help from "../about/help";
 
 const Login = (props) => {
-    // const [username, setUsername]= useState("")
-    // const [password, setPassword]=useState("")
 
     const navigate = useNavigate();
 

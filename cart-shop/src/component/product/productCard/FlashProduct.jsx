@@ -1,24 +1,16 @@
 import React, { useState } from "react"
-import {Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle} from 'reactstrap';
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import  "./FlashProduct.css"
-import ReactStars from "react-rating-stars-component";
 
 import {Link} from "react-router-dom";
 import Rating from "../../../Utils/Rating/Rating";
-import {Col, Row} from "antd";
 import swal from "sweetalert";
 import {deleteurl, post} from "../../../service/httpservice";
-import {toast} from "react-toastify";
 
 
 const FlashProduct = ({ productItems , check}) => {
-    const [count, setCount] = useState(0)
-    const increment = () => {
-        setCount(count + 1)
-    }
     const settings = {
         dots: false,
         infinite: true,
@@ -156,39 +148,6 @@ const FlashProduct = ({ productItems , check}) => {
                     </div>
                 </div>
              }
-
-        {/*<div className="row row-cols-1 row-cols-md-3 row-cols-lg-4">*/}
-        {/*            {productItems.map((obj, index) => (*/}
-        {/*                <div className="col-md-3 mb-4">*/}
-        {/*                    <div className="card h-100 " key={productItems.id}>*/}
-        {/*                        <img src={obj.imageproduct} className="card-img-top"*/}
-        {/*                             alt="..."/>*/}
-        {/*                        <div className="card-body" style={{textAlign: "center"}}>*/}
-        {/*                            <h5 className="card-title mb-0">{(obj.title).substring(0,12) }</h5>*/}
-        {/*                            <div className='rate'>*/}
-        {/*                                <i className='fa fa-star'></i>*/}
-        {/*                                <i className='fa fa-star'></i>*/}
-        {/*                                <i className='fa fa-star'></i>*/}
-        {/*                                <i className='fa fa-star'></i>*/}
-        {/*                                <i className='fa fa-star'></i>*/}
-        {/*                            </div>*/}
-        {/*                            <p className="card-text lead fw-bold" >*/}
-        {/*                                ${obj.price}*/}
-        {/*                            </p>*/}
-        {/*                            <a href="#" className="btn btn-primary cart" >Add cart</a>*/}
-        {/*                        </div>*/}
-
-        {/*                        /!*</div>*!/*/}
-
-        {/*                    </div>*/}
-        {/*                </div>*/}
-        {/*            ))}*/}
-
-        {/*        ))}*/}
-        {/*</div>*/}
-
-
-
         </>
     )
 }

@@ -5,16 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
   const [keyword, setKeyword] = useState();
   const dispatch = useDispatch();
-  // let history = useHistory();
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  // const logoutHandler = () => {
-  //   dispatch(logout());
-  // };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -54,10 +49,8 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {/* Header */}
       <div className="header">
         <div className="container">
-          {/* MOBILE HEADER */}
           <div className="mobile-header">
             <div className="container ">
               <div className="row ">
@@ -137,7 +130,6 @@ const Header = () => {
             </div>
           </div>
 
-          {/* PC HEADER */}
           <div className="pc-header">
             <div className="row">
               <div className="col-md-3 col-4 d-flex align-items-center">
@@ -178,7 +170,6 @@ const Header = () => {
                       <Link
                         className="dropdown-item"
                         to="#"
-                        // onClick={logoutHandler}
                       >
                         Logout
                       </Link>

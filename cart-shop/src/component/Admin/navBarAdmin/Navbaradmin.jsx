@@ -21,9 +21,6 @@ export default function NavbarAdmin()  {
                            href="index.html">
                             <span className="text-uppercase fw-lighter ms-2">Attire</span>
                         </a>
-
-
-
                         <div className="order-lg-2 d-flex nav-btns">
                             <div>
                                 <img className="avatar rounded-circle" src="/avatar1.png" alt='' style={{marginLeft: "14px"}}/>

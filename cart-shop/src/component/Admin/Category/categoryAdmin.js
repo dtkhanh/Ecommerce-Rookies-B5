@@ -4,32 +4,12 @@ import NavbarAdmin from "../navBarAdmin/Navbaradmin";
 import Sidebar from "../siderBar/sideBar";
 import {deleteurl, get, getwithAuthtication, post} from "../../../service/httpservice";
 import swal from 'sweetalert';
-import Modal from 'react-modal';
 import {toast} from "react-toastify";
-import {cloudinaryUpload} from "../../../service/upload";
-
 
 const CategoriesAdmin = () => {
     const url ='/category'
 
     const [categorylist , setCategory] = useState([])
-    const [image,setImage] = useState('')
-    const [loading,setLoading] = useState(false)
-    let subtitle;
-    const [modalIsOpen, setIsOpen] = React.useState(false);
-
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        subtitle.style.color = '#f00';
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-    }
 
 
     function getListCategory(){
@@ -93,10 +73,6 @@ const CategoriesAdmin = () => {
                             title: error.response.data.message,
                             footer: '<a href="">Why do I have this issue?</a>'
                         })
-                        toast.error(message, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            autoClose: 3000,
-                        });
                     });
                 } else {
                     swal("Your imaginary file is safe!");
@@ -136,7 +112,6 @@ const CategoriesAdmin = () => {
 
                         </tr>
                         </thead>
-                        {/* Table Data */}
                         <tbody>
                         {categorylist.map((obj, index) => (
                             <tr>

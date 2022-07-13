@@ -21,7 +21,6 @@ const ProductDetail = ( ) => {
     const url_product = "/products";
     let {id } = useParams();
     const [productList, setProductList] = useState([]);
-    const [cateList, setCateList] = useState([])
     console.log(id)
     function getProductList(){
         get( url_product+"/" + id).then(response => {
@@ -45,15 +44,6 @@ const ProductDetail = ( ) => {
             return money
 
     }
-    const thirdExample = {
-        size: 20,
-        count: 5,
-        isHalf: true,
-        value: productList.rating,
-        color: "blue",
-        activeColor: "red",
-        edit: false
-    };
 
 
     return(
@@ -73,7 +63,6 @@ const ProductDetail = ( ) => {
                         <div className="half">
                             <div className="featured_text">
                                 <h1>{productList.name}</h1>
-                                {/*<p className="sub">{productList.name}</p>*/}
                                 <p className="price" style={{color:"red"}}>{custormerMoney(productList.price)} vnd</p>
                             </div>
                             <div className="image" style={{ paddingTop: "15px", "width": "100%", height:"100%"}}>

@@ -19,7 +19,6 @@ public class AccountDto {
     @Size(min= 4 , max = 15)
     private String password;
 
-
     private String address;
 
     private String phone;

@@ -20,7 +20,7 @@ public class OrderModelController {
     OdersModelRepository odersModelRepository;
 
     @PostMapping("/{id_account}")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> productaddOrders(@PathVariable Long id_account){
         OrdersModel ordersModel = oderModelServicel.checkoutCart(id_account);
         return ResponseEntity.ok().body(oderModelServicel.convertDTO(ordersModel));

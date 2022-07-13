@@ -55,7 +55,6 @@ public class ProductCommentController {
     }
 
     public ResponseEntity<?> getProductComments(){
-//        return productCommentService.convertListDTO(productCommentService.getProductCommentList());
         return ResponseEntity.ok().body(productCommentRepository.findAll());
     }
 

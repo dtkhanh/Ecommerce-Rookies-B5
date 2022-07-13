@@ -3,13 +3,11 @@ import "./register.css"
 import Navbar from "../navbar/Navbar"
 import {post, postlogin} from "../../service/httpservice";
 import swal from "sweetalert";
-import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
 
 
 const Register = () => {
-
     const url ='/auth/signup'
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
@@ -73,7 +71,6 @@ const Register = () => {
                     }).catch((error) => {
                     let message = error.response.message;
                     if (!error.response) {
-                        message = "Connection error! Please try again later";
                         swal({
                             icon: 'error',
                             title: 'Connection error! Please try again later',

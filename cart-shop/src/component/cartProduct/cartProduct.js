@@ -119,10 +119,6 @@ export default function CartProduct()  {
                             title: error.response.data.message,
                             footer: '<a href="">Why do I have this issue?</a>'
                         })
-                        toast.error(message, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            autoClose: 3000,
-                        });
                     });
                 }
                 else {

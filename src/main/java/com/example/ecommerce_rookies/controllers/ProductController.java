@@ -85,7 +85,7 @@ public class ProductController {
     public ResponseEntity<?> adminGetProductByCategory(@PathVariable Long category_id) {
         if(categoryService.getCategoryId(category_id).isEmpty())
             return  ResponseEntity.ok().body(String.format("Could not find category with id:" + category_id));
-        List<Product> listproduct = new ArrayList<>();
+        List<Product> listproduct;
         List<Product> newlistproduct = new ArrayList<>();
             listproduct = productService.findAll();
             for (Product product : listproduct) {
@@ -109,13 +109,6 @@ public class ProductController {
         Set<ProductComment> list = product.get().getProductComments();
         orderDetailsRepository.deleteAllByProductId(id);
         productRepository.deleteAllById(id);
-//        if(!list.isEmpty()) {
-//            for (ProductComment productComment : list) {
-//                productCommentRepository.deleteAllById(productComment.getId());
-//            }
-//        }
-//        galleryRepository.deleteGalleryByProduct_Id(id);
-//        productService.deleteProductById(id);
         return ResponseEntity.ok().body(String.format("Delete product successfully"));
     }
 

@@ -1,5 +1,4 @@
 import axios from "axios";
-import {getCookie} from "./Cookie";
 
 const url_start ="http://localhost:8080/api"
 

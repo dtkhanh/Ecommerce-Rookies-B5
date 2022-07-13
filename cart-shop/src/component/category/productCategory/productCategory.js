@@ -26,8 +26,6 @@ export default function ProductByCategory()  {
 
             if(response.status === 200){
                 setCategory(response.data)
-                // getListProduct();
-                // getCategory();
             }
         });
     }

@@ -51,10 +51,6 @@ export default function Navbar()  {
 
     const navigate = useNavigate();
 
-    const backToHome = () => {
-        navigate("/movie");
-    }
-
     let   isLogin = checkAccountTrue();
 
     console.log(isLogin)
@@ -83,15 +79,6 @@ export default function Navbar()  {
                                 <span
                                     className="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
                             </button>
-                            {/*<button className="btn position-relative" data-bs-toggle="dropdown" to=""*/}
-                            {/*        role="button" aria-expanded="false">*/}
-                            {/*    <img className="avatar rounded-circle" src="/avatar1.png" alt='' />*/}
-
-                            {/*    <ul className="dropdown-menu">*/}
-                            {/*        <li><Link className="dropdown-item" to="/login">Đăng nhập</Link></li>*/}
-                            {/*        <li><Link className="dropdown-item" to="/logout">Đăng xuất</Link></li>*/}
-                            {/*    </ul>*/}
-                            {/*</button>*/}
                                 {isLogin ?
                                     <div>
                                         {JSON.parse(localStorage.getItem('User')).id === null ? <></>:

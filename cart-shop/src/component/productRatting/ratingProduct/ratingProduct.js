@@ -1,15 +1,10 @@
 import ReactStars from "react-rating-stars-component";
 import React from "react";
-import { render } from "react-dom";
 import '../productRating.css'
-import {Col, Row} from "antd";
-import Rating from "../../../Utils/Rating/Rating";
 import {useEffect, useState} from "react";
 import {get, post} from "../../../service/httpservice";
 import swal from "sweetalert";
 import {Navigate, useNavigate} from "react-router-dom";
-
-import ProductDetail from "../../product/productDetails/productDetails";
 export default function RatingProduct({pid}) {
     const url_ratting = "/productcomment";
     const [rating, setRating] = useState([]);
@@ -56,9 +51,6 @@ export default function RatingProduct({pid}) {
                         title: "Add product succeeded!",
                         icon: "success"
                     }).then( navigate('/product/'+pid))
-
-
-
                 }
             }).catch((error) => {
             let message = "Add product failed!";

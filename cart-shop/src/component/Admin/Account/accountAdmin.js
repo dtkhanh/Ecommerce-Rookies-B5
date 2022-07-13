@@ -4,8 +4,6 @@ import NavbarAdmin from "../navBarAdmin/Navbaradmin";
 import Sidebar from "../siderBar/sideBar";
 import {deleteurl, get, getwithAuthtication, post, put} from "../../../service/httpservice";
 import swal from 'sweetalert';
-import Modal from 'react-modal';
-import {toast} from "react-toastify";
 
 
 const AccountAdmin = () => {
@@ -118,7 +116,6 @@ const AccountAdmin = () => {
 
                         </tr>
                         </thead>
-                        {/* Table Data */}
                         <tbody>
                         {accountList.map((obj, index) => (
                             obj.role ==="ROLE_ADMIN" ? null

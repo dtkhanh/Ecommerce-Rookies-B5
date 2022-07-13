@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick-theme.css"
 
 import {Button, Col, Row} from "antd";
 import './productRating.css'
-import Navbar  from "../navbar/Navbar";
 import Rating from "../../Utils/Rating/Rating";
 import {get} from "../../service/httpservice";
 import {useEffect} from "react";
@@ -26,7 +25,6 @@ const ProductRatings = ({pid}) => {
     useEffect(() => {
         getCommentList();
     }, []);
-
 
 
     return (

@@ -72,7 +72,6 @@ public class CartmodelController {
                 }
             }
         }
-
         return ResponseEntity.ok().body(cartmodelService.convertByDTO(  cartmodel.get().getId()));
     }
 }
