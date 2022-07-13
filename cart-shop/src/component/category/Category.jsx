@@ -8,6 +8,7 @@ import dataSlider from "../carousel/dataSlider";
 import {Link} from "react-router-dom";
 import { toast } from "react-toastify";
 import {get} from "../../service/httpservice"
+import {getCookie} from "../../service/Cookie";
 
 export default function Category()  {
     const [cateList, setCateList] = useState([])

@@ -8,11 +8,13 @@ import {toast} from "react-toastify";
 import swal from "sweetalert";
 
 
-export default function EditProduct()  {
+export default function EditProduct({props})  {
     const endpoint = "/products";
     let {id } = useParams();
     const [productList, setProductList] = useState([]);
     const [cateList, setCateList] = useState([])
+    const [loading,setLoading] = useState(false)
+
 
     function getListCategory(){
         get('/category').then(response =>{
@@ -59,45 +61,82 @@ export default function EditProduct()  {
         product.categoryid = event.target.value
         setproduct(product)
     };
+
+    const  uploadImage = async e=>{
+        const files = e.target.files
+        const data = new FormData()
+        data.append('file',files[0])
+        data.append('upload_preset','darwin')
+        setLoading(true)
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/dkzkr4aqz/image/upload',
+            {
+                method: 'POST',
+                body: data
+            }
+        )
+        const file = await res.json()
+        if(file.secure_url !== null){
+            product.image.push(file.secure_url)
+        }
+        setproduct(product)
+        setLoading(false)
+
+    }
     const putProduct = (e) => {
         e.preventDefault();
+        if(product.name == ""){
+            product.name=productList.name
+        }
+        if(product.description == ""){
+            product.description = productList.description
+        }
+        if(product.price == ""){
+            product.price = productList.price
+        }
+        if(product.image == ""){
+            product.image = (productList.image)
+        }
+        if(product.categoryid == ""){
+            product.categoryid = productList.categoryid
+        }
         console.log(product)
         const body = JSON.stringify({
             name: product.name,
             price: product.price,
             categoryid: product.categoryid,
             description: product.description,
-            image: productList.image
+            image: product.image
         });
-        console.log(body);
-        // put(endpoint + `/admin/`+id, body)
-        //     .then((response) => {
-        //         if (response.status === 200) {
-        //             swal({
-        //                 title: "Good job!",
-        //                 text: "You clicked the button!",
-        //                 icon: "success"
-        //             })
-        //             getProductList();
-        //
-        //         }
-        //     }).catch((error) => {
-        //     let message = "Add product failed!";
-        //     if (!error.response) message = "Connection error! Please try again later";
-        //     else {
-        //         console.log(error.response.status);
-        //         switch (error.response.status) {
-        //             case 400: message = "The product name is already exist!"; break;
-        //             default: break;
-        //         }
-        //     }
-        //     swal({
-        //         icon: 'error',
-        //         title: 'Oops...',
-        //         text: 'Something went wrong!',
-        //         footer: '<a href="">Why do I have this issue?</a>'
-        //     })
-        // });
+        console.log("haha" + body);
+        put('/products/admin/'+id, body)
+            .then((response) => {
+                if (response.status === 200) {
+                    swal({
+                        title: "Good job!",
+                        text: "You clicked the button!",
+                        icon: "success"
+                    })
+                    getProductList();
+
+                }
+            }).catch((error) => {
+            let message = "Add product failed!";
+            if (!error.response) message = "Connection error! Please try again later";
+            else {
+                console.log(error.response.status);
+                switch (error.response.status) {
+                    case 400: message = "The product name is already exist!"; break;
+                    default: break;
+                }
+            }
+            swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
+            })
+        });
     }
 
 
@@ -122,7 +161,6 @@ export default function EditProduct()  {
                                                     <label htmlFor="product_title" className="form-label">
                                                         Product title
                                                     </label>
-
                                                     <input
                                                         type="text"
                                                         placeholder="Type here"
@@ -140,7 +178,7 @@ export default function EditProduct()  {
                                                     <input
                                                         onChange={handlePriceChange}
                                                         type="number"
-                                                        value={productList.price}
+                                                        defaultValue={productList.price}
                                                         className="form-control"
                                                         id="product_price"
                                                         required
@@ -152,9 +190,9 @@ export default function EditProduct()  {
                                                         Category
                                                     </label>
                                                     <select onChange={handleCategoryChange}   id="category-select" name="category" form="edit-form" style={{marginLeft:"15px"}}>
-                                                        <option key="" value={productList.categoryid}>{productList.categoryid}</option>
+                                                        {/*<option key="" value={productList.categoryid}>{productList.categoryid}</option>*/}
                                                         {cateList.map((cate) => (
-                                                            (cate.name !== productList.categoryid) ? <option key={cate.name} value={cate.id}>{cate.name}</option> :  <option key={cate.name} value={cate.id}>{cate.name}</option>
+                                                            (cate.name === productList.categoryid) ? <option key={cate.name} value={cate.id}>{ productList.categoryid}</option> :<option key={cate.name} value={cate.id}>{cate.name}</option>
                                                         ))}
                                                     </select>
                                                 </div>
@@ -162,7 +200,7 @@ export default function EditProduct()  {
                                                     <label className="form-label">Description Product</label>
                                                     <textarea
                                                         onChange={handleDescriptionChange}
-                                                        value={productList.description}
+                                                        defaultValue={productList.description}
                                                         placeholder="Type here"
                                                         className="form-control"
                                                         rows="7"
@@ -171,13 +209,20 @@ export default function EditProduct()  {
                                                 </div>
                                                 <div className="mb-4">
                                                     <label className="form-label">Images</label>
+
+                                                        <img src={productList.image} alt="Avatar" className="img-fluid my-5" style={{width: "80px"}}/>
+                                                    {product.image === null?
+                                                        null
+                                                        :
+                                                        <img
+                                                            src={product.image}
+                                                            alt="Avatar" className="img-fluid my-5" style={{width: "80px"}}/>
+                                                    }
                                                     <input
-                                                        className="form-control"
-                                                        type="text"
-                                                        placeholder="Enter Image URL"
-                                                        required
+                                                        type ="file"
+                                                        onChange={uploadImage}
+                                                        className=" fa fa-image"
                                                     />
-                                                    <input className="form-control mt-3" type="file" />
                                                 </div>
                                             </div>
                                         </div>

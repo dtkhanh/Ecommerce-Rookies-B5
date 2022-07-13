@@ -43,12 +43,16 @@ const Login = (props) => {
                 if (response.status === 200) {
                     console.log(response.data.name)
                     localStorage.setItem("User", JSON.stringify(response.data))
+
+                    document.cookie = `access_token=${response.data.token}; httpOnly: true;  max-age=86400; path=/;`;
+
                     if(response.data.roles ==="ROLE_ADMIN"){
                         swal({
                             title: "Good job!",
                             text: "You clicked the button!",
                             icon: "success"
                         }).then( navigate('/admin'))
+
                     }
                     if(response.data.roles ==="ROLE_USER"){
                         swal({

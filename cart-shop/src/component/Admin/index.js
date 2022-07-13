@@ -1,17 +1,6 @@
 import React from "react";
 import SideBar from "./siderBar/sideBar"
-import {
-    BrowserRouter,
-    Routes,
-    Route, Link, BrowserRouter as Router, Switch
-} from 'react-router-dom';
-import {Row, Col, Navbar} from "reactstrap";
-
 import './admin.css'
-import Product from "../product/Product";
-import HomePage from "../../Page/Homepage";
-import Login from "../login/Login";
-import Logout from "../Logout/Logout";
 
 
 export default function AdminPage() {

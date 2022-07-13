@@ -1,6 +1,7 @@
 package com.example.ecommerce_rookies.exception;
 
 import com.example.ecommerce_rookies.exception.account.NotFoundAccount;
+import com.example.ecommerce_rookies.exception.cart.NotFoundCart;
 import com.example.ecommerce_rookies.exception.category.NotFoundCategory;
 import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -63,6 +64,13 @@ public class ExceptionHandlerJson extends ResponseEntityExceptionHandler {
         HttpStatus httpStatus = HttpStatus.EXPECTATION_FAILED;
         return new ResponseEntity<>(sendErrorJson(httpStatus,exception), httpStatus);
     }
+
+    @ExceptionHandler(value = NotFoundCart.class)
+    public ResponseEntity<?> sendErrorNotCartById(NotFoundCart exception){
+        HttpStatus httpStatus = HttpStatus.EXPECTATION_FAILED;
+        return new ResponseEntity<>(sendErrorJson(httpStatus,exception), httpStatus);
+    }
+
 
 
 

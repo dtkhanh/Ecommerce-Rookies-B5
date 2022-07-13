@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 @CrossOrigin(origins = "*", maxAge = 3600)
-
 @RestController
 @RequestMapping("/api/account")
 public class AccountController {
@@ -37,37 +36,24 @@ public class AccountController {
 
     public ResponseEntity<?> getAccountbyId(@PathVariable Long id) {
         Optional<Account> account = accountService.getAccountId(id);
-        if(account.isEmpty())
-            throw new NotFoundAccount(id);
         return ResponseEntity.ok().body(accountService.convertDTO(account.get()));
     }
 
     @DeleteMapping("/admin/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public  ResponseEntity<?> deleteAccountbyId(@PathVariable Long id){
-        Optional<Account> account = accountService.getAccountId(id);
-        if(account.isEmpty())
-            throw new NotFoundAccount(id);
-        infomationRepository.deleteAllByAccount_Id(id);
-        accountService.deleteAccountId(id);
-        return ResponseEntity.ok().body("User delete successfully!");
+        return accountService.deleteAccountId(id);
     }
     @PutMapping("/set_activity/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody SetActivity setActivity){
-        Optional<Account> account = accountService.getAccountId(id);
-        if(account.isEmpty())
-            throw  new NotFoundAccount(id);
-        accountService.updateActivityAccount(id,setActivity);
-        return ResponseEntity.ok().body("User update activity successfully!");
+        return accountService.updateActivityAccount(id,setActivity);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateActivityAccount(@PathVariable Long id, @RequestBody AccountDto accountDto){
-        Optional<Account> account = accountService.getAccountId(id);
-        if(account.isEmpty())
-            throw  new NotFoundAccount(id);
-        accountService.updateAccount(id,accountDto);
-        return ResponseEntity.ok().body("User update successfully!");
+        return accountService.updateAccount(id,accountDto);
     }
 
 }

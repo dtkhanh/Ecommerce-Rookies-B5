@@ -13,4 +13,21 @@ public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long
     @Modifying
     @Query("delete from OrderDetails o where o.id = ?1")
     void deleteAllById(Long id);
+
+//    @Transactional
+//    @Modifying
+//    @Query("delete from OrderDetails o where o.cartmodel.id = ?1")
+//    void deleteDistinctByCartmodel_Id(Long id);
+
+
+      @Transactional
+      @Modifying
+      @Query("delete from OrderDetails o where o.cartmodel.id = ?1")
+      void deleteAllByCartmodel_Id(Long id);
+
+    @Transactional
+    @Modifying
+    @Query("delete from OrderDetails o where o.product.id = ?1")
+    void deleteAllByProductId(Long id);
+
 }

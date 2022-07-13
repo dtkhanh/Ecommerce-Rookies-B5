@@ -10,17 +10,6 @@ export function get(url) {
         },
     });
 }
-// export function getWithAuth(url) {
-//     const token = getCookie("token");
-//     return axios.get(endpoint + url, {
-//         headers: {
-//             Authorization: `Bearer ${token}`,
-//             "Access-Control-Allow-Origin": "*",
-//             "Content-Type": "application/json; charset=utf-8",
-//         },
-//     });
-// }
-
 export function getwithAuthtication(url){
     let user = JSON.parse(localStorage.getItem('User'));
     return axios.get(url_start + url ,{
@@ -53,6 +42,16 @@ export function post(url, body) {
             },
         });
     }
+}
+export function postcheckout(url) {
+    let user = JSON.parse(localStorage.getItem('User'));
+        return axios.post( url, {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+                "Access-Control-Allow-Origin": "*",
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+        });
 }
 export function put(url, body) {
     let user = JSON.parse(localStorage.getItem('User'));

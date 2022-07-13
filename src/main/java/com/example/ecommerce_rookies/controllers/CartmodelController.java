@@ -38,6 +38,7 @@ public class CartmodelController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getOrdersById(@PathVariable Long id){
         OrdersDTO ordersDTO = cartmodelService.convertByDTO(id);
         return ResponseEntity.ok().body(ordersDTO);
@@ -49,6 +50,7 @@ public class CartmodelController {
     }
 
     @DeleteMapping("/{id_account}/{id_product}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> DeleteProductInOrders(@PathVariable Long id_account , @PathVariable Long id_product){
         Optional<Account> account = accountRepository.findById(id_account);
         Set<Cartmodel> cartmodels= account.get().getCartmodels();
@@ -61,7 +63,12 @@ public class CartmodelController {
         for(OrderDetails orderDetails1 : orderDetails){
             if(orderDetails1.getCartmodel().getId() == id_cart){
                 if(orderDetails1.getProduct().getId()== id_product) {
+                    float total = cartmodel.get().getTotal();
+                    total = total - (orderDetails1.getNumber() * orderDetails1.getPrice());
                     orderDetailsRepository.deleteAllById(orderDetails1.getId());
+                    cartmodel.get().setTotal(total);
+                    cartmodelRepository.save(cartmodel.get());
+
                 }
             }
         }

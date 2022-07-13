@@ -10,6 +10,7 @@ import com.example.ecommerce_rookies.models.Product;
 import com.example.ecommerce_rookies.models.ProductComment;
 import com.example.ecommerce_rookies.payload.response.MessageResponse;
 import com.example.ecommerce_rookies.repository.GalleryRepository;
+import com.example.ecommerce_rookies.repository.OrderDetailsRepository;
 import com.example.ecommerce_rookies.repository.ProductCommentRepository;
 import com.example.ecommerce_rookies.repository.ProductRepository;
 import com.example.ecommerce_rookies.services.CategoryService;
@@ -33,6 +34,9 @@ public class ProductController {
     private ProductCommentRepository productCommentRepository;
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
 
     @Autowired
     private GalleryRepository galleryRepository;
@@ -103,13 +107,15 @@ public class ProductController {
     public ResponseEntity<?> deleteProductId(@PathVariable Long id){
         Optional<Product> product = productService.getProductById(id);
         Set<ProductComment> list = product.get().getProductComments();
-        if(!list.isEmpty()) {
-            for (ProductComment productComment : list) {
-                productCommentRepository.deleteAllById(productComment.getId());
-            }
-        }
-        galleryRepository.deleteGalleryByProduct_Id(id);
-        productService.deleteProductById(id);
+        orderDetailsRepository.deleteAllByProductId(id);
+        productRepository.deleteAllById(id);
+//        if(!list.isEmpty()) {
+//            for (ProductComment productComment : list) {
+//                productCommentRepository.deleteAllById(productComment.getId());
+//            }
+//        }
+//        galleryRepository.deleteGalleryByProduct_Id(id);
+//        productService.deleteProductById(id);
         return ResponseEntity.ok().body(String.format("Delete product successfully"));
     }
 

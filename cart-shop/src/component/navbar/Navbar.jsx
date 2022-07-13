@@ -132,7 +132,7 @@ export default function Navbar()  {
                                        role="button" aria-expanded="true">Category</Link>
                                     <ul className="dropdown-menu">
                                         {cateList.map((obj, index) => (
-                                            <li><Link className="dropdown-item" to={'/category/' + obj.id}>{obj.name}</Link></li>
+                                            <li><Link className="dropdown-item" to={ '/category/' + obj.id} >{obj.name}</Link></li>
                                         ))}
                                     </ul>
                                 </li>

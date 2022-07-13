@@ -42,12 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
             throw new NotFoundCategory(id);
         return categoryRepository.findById(id);
     }
-    // READ
     @Override
     public List<Category> getCategory() {
         return categoryRepository.findAll();
     }
-    // DELETE
     @Override
     public void deleteCategory(Long id) {
         if(categoryRepository.findById(id).isEmpty())

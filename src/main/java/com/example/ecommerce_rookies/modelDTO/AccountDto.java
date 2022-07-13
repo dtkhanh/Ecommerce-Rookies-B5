@@ -28,6 +28,8 @@ public class AccountDto {
 
     private  String avatar;
 
+    private String role;
+
     private boolean check_activity;
 
     public AccountDto(Long id, String username, String password, String address, String phone, String email, String avatar) {

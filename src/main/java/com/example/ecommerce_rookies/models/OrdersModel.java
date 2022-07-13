@@ -24,6 +24,10 @@ public class OrdersModel {
     @Column(name="quantity")
     private int quantity;
 
+    @Column(name ="listProduct")
+    private String listProduct;
+
+
     @ManyToOne
     @JoinColumn(name="idAccount")
     @JsonIgnore

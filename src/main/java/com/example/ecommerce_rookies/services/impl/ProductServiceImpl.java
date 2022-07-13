@@ -1,13 +1,16 @@
 package com.example.ecommerce_rookies.services.impl;
 
+import com.example.ecommerce_rookies.exception.category.NotFoundCategory;
 import com.example.ecommerce_rookies.exception.product.NotFoundProductByCategory;
 import com.example.ecommerce_rookies.modelDTO.ProductDTO;
 import com.example.ecommerce_rookies.models.Category;
 import com.example.ecommerce_rookies.models.Product;
+import com.example.ecommerce_rookies.payload.response.MessageResponse;
 import com.example.ecommerce_rookies.repository.ProductRepository;
 import com.example.ecommerce_rookies.services.CategoryService;
 import com.example.ecommerce_rookies.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final CategoryService categoryService;
 
+    @Autowired
     public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
@@ -40,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product){
+
         return productRepository.save(product);
     }
 
@@ -65,8 +70,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProductById(Long id) {
+    public ResponseEntity<?> deleteProductById(Long id) {
+        if (productRepository.findById(id).isEmpty()) {
+            throw new NotFoundProductByCategory.NotFoundProduct(id);
+        }
         productRepository.deleteAllById(id);
+        return ResponseEntity.ok().body(String.format("Delete product successfully"));
     }
 
 
@@ -112,10 +121,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(long id, ProductDTO productDTO) {
+    public ResponseEntity<?> updateProduct(long id, ProductDTO productDTO) {
 //        if (productRepository.findById(id).isEmpty()) {
 //            throw new NotFoundProductByCategory.NotFoundProduct(id);
-//        }
+        Optional<Category> category = categoryService.getCategoryId(Long.valueOf(productDTO.getCategoryid()));
+        if(category.isEmpty())
+            throw new NotFoundCategory(Long.valueOf(productDTO.getCategoryid()));
         Product prd =productRepository.findById(id).get();
         if(productRepository.findById(id).isEmpty())
             throw  new NotFoundProductByCategory.NotFoundProduct(id);
@@ -125,12 +136,14 @@ public class ProductServiceImpl implements ProductService {
             prd.setImageproduct(image.get(0));
         prd.setDescription(productDTO.getDescription());
         prd.setTitle(productDTO.getName());
-        prd.setCreatedate(LocalDate.now());
-        prd.setUpdatedate(null);
+        prd.setUpdatedate(LocalDate.now());
         prd.setRatting(0);
-        Optional<Category> category = categoryService.getCategoryId(Long.valueOf(productDTO.getCategoryid()));
+
         prd.setCategory(category.get());
-        return productRepository.save(prd);
+        productRepository.save(prd);
+        return ResponseEntity.ok(new MessageResponse("Product update successfully"));
+
+
     }
 
 

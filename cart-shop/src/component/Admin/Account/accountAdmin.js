@@ -121,6 +121,8 @@ const AccountAdmin = () => {
                         {/* Table Data */}
                         <tbody>
                         {accountList.map((obj, index) => (
+                            obj.role ==="ROLE_ADMIN" ? null
+                                :
                             <tr>
                                 <td>{obj.id}</td>
                                 <td>

@@ -16,7 +16,6 @@ export default function ProductByCategory()  {
 
     function getListProduct(){
         get('/products/category/'+ id).then(response =>{
-
             if(response.status === 200){
                 setProductList(response.data)
             }
@@ -27,8 +26,8 @@ export default function ProductByCategory()  {
 
             if(response.status === 200){
                 setCategory(response.data)
-                getListProduct();
-                getCategory();
+                // getListProduct();
+                // getCategory();
             }
         });
     }

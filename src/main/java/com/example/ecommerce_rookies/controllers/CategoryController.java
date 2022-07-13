@@ -32,6 +32,7 @@ public class CategoryController {
     private ProductService productService;
 
     @PostMapping(value = "/admin" )
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createCategory(@RequestBody Category ctg){
        categoryService.createCategory(ctg);
        return ResponseEntity.ok(new MessageResponse("Category registered successfully!"));
@@ -41,6 +42,7 @@ public class CategoryController {
         return ResponseEntity.ok().body(categoryService.convertToDtoList(categoryService.getCategory()));
     }
     @PutMapping("/admin/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateProduct(@PathVariable Long id,@RequestBody Category category) {
         categoryService.updateCategory(id, category);
         return ResponseEntity.ok().body(String.format("update category successfully"));

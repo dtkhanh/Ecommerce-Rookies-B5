@@ -3,9 +3,10 @@ import {Link} from "react-router-dom";
 import Sidebar from "../siderBar/sideBar"
 import NavbarAdmin from "../navBarAdmin/Navbaradmin";
 import {Table} from "antd";
-import {get, getwithAuthtication, post} from "../../../service/httpservice";
+import {deleteurl, get, getwithAuthtication, post} from "../../../service/httpservice";
 import Rating from "../../../Utils/Rating/Rating";
 import {toast} from "react-toastify";
+import swal from "sweetalert";
 
 
 
@@ -55,6 +56,62 @@ export default function ProductAdmin()  {
         getProductList();
         // getListCate();
     }, []);
+
+    const handleDelete = (item) => {
+        swal({
+            title: "You want to delete a Product with the name: "+ item.title+" ?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    console.log(item)
+                    deleteurl( `/products/admin/` + item.id)
+                        .then((response) => {
+                            if (response.status === 200) {
+                                swal({
+                                    title: "Delete Product succeeded!",
+                                    icon: "success"
+                                })
+                                getProductList();
+
+                            }
+                        }).catch((error) => {
+                        let message = error.response.message;
+                        if (!error.response){
+                            message = "Connection error! Please try again later";
+                            swal({
+                                icon: 'error',
+                                title:'Connection error! Please try again later',
+                                footer: '<a href="">Why do I have this issue?</a>'
+                            })
+                        }
+                        else {
+                            switch (error.response.status) {
+                                case 400: message = "The product name is already exist!";
+                                    swal({
+                                        icon: 'error',
+                                        title:'The product name is already exist!',
+                                        footer: '<a href="">Why do I have this issue?</a>'
+                                    })
+                                    break;
+                                default: break;
+
+                            }
+                        }
+                        swal({
+                            icon: 'error',
+                            title: error.response.data.message,
+                            footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    });
+                } else {
+                    swal("Your imaginary file is safe!");
+                }
+            });
+    };
+
 
 
     return (
@@ -116,7 +173,6 @@ export default function ProductAdmin()  {
                             </button>
 
                         </div>
-                        {productListCate ?
                         <table className="table table-bordered">
                             <thead>
                             <tr>
@@ -124,11 +180,11 @@ export default function ProductAdmin()  {
                                 <th scope="col">NAME</th>
                                 <th scope="col">RATTING</th>
                                 <th scope="col">PRICE</th>
-                                <th scope="col">DESCRIPTION</th>
                                 <th scope="col">IMAGE</th>
                                 <th scope="col">CREATED DATE</th>
                                 <th scope="col">UPDATED DATE</th>
                                 <th scope="col">EDIT</th>
+                                <th scope="col">DELETE</th>
                             </tr>
 
                             </thead>
@@ -143,7 +199,6 @@ export default function ProductAdmin()  {
                                     <td>{obj.title}</td>
                                     <td>{obj.ratting}</td>
                                     <td>{obj.price}vnd</td>
-                                    <td>{(obj.description).substring(0,12) }...</td>
                                     <td><img src={obj.imageproduct} style={{width:"100px", height:"100px"}}/></td>
                                     <td>{obj.createdate}</td>
                                     <td>{obj.updatedate}</td>
@@ -153,51 +208,16 @@ export default function ProductAdmin()  {
                                             </Link>
                                         </div>
                                     </td>
+                                    <td className="button" >
+
+                                        <button onClick={()=> handleDelete(obj)} style={{marginRight:"20px" , marginTop: "8px"}} type="button" className="btn btn-outline-danger fa fa-trash">
+                                        </button>
+
+                                    </td>
                                 </tbody>
                             ))}
 
                         </table>
-                            :
-                            <table className="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">NAME</th>
-                                    <th scope="col">RATTING</th>
-                                    <th scope="col">PRICE</th>
-                                    <th scope="col">DESCRIPTION</th>
-                                    <th scope="col">IMAGE</th>
-                                    <th scope="col">CREATED DATE</th>
-                                    <th scope="col">UPDATED DATE</th>
-                                    <th scope="col">BUTTON</th>
-                                </tr>
-
-                                </thead>
-                                {productListCate.map((obj, index) => (
-                                    <tbody className="table-product" style={{textAlign:"center" ,
-                                        backgroundColor:"#d2f8fb",
-                                        textAlignLast:"inherit",
-                                        fontSize:"20px",
-                                        color: "#7A7777"
-                                    }}>
-                                    <td  scope="row">{obj.id}</td>
-                                    <td>{obj.title}</td>
-                                    <td>{obj.ratting}</td>
-                                    <td>{obj.price}vnd</td>
-                                    <td>{(obj.description).substring(0,12) }...</td>
-                                    <td><img src={obj.imageproduct} style={{width:"100px", height:"100px"}}/></td>
-                                    <td>{obj.createdate}</td>
-                                    <td>{obj.updatedate}</td>
-                                    <td>
-                                        <Link to={"/" + `${obj.id}`} className="nav-link " >
-                                           edit
-                                        </Link>
-                                    </td>
-                                    </tbody>
-                                ))}
-
-                            </table>
-                        }
                     </div>
                 </div>
             </div>

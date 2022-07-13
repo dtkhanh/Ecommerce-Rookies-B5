@@ -3,6 +3,7 @@ package com.example.ecommerce_rookies.services;
 import com.example.ecommerce_rookies.modelDTO.AccountDto;
 import com.example.ecommerce_rookies.modelDTO.SetActivity;
 import com.example.ecommerce_rookies.models.Account;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,13 +14,13 @@ public interface AccountService {
 
     Optional<Account> getAccountId(Long id);
 
-    void deleteAccountId(Long id);
+    ResponseEntity<?> deleteAccountId(Long id);
 
     List<AccountDto> convertListDTO(List<Account> accountList);
 
     AccountDto convertDTO(Account account);
 
-    Account updateAccount(long id, AccountDto accountDto);
+    ResponseEntity<?> updateAccount(long id, AccountDto accountDto);
 
-    Account updateActivityAccount(long id, SetActivity setActivity);
+    ResponseEntity<?> updateActivityAccount(long id, SetActivity setActivity);
 }

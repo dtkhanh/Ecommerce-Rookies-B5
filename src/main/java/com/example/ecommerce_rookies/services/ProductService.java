@@ -2,6 +2,7 @@ package com.example.ecommerce_rookies.services;
 
 import com.example.ecommerce_rookies.modelDTO.ProductDTO;
 import com.example.ecommerce_rookies.models.Product;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public interface ProductService {
 
     void deleteProductByCategoryID(Long cid);
 
-    void deleteProductById(Long id);
+    ResponseEntity<?> deleteProductById(Long id);
 
 
     Product convertProduct(ProductDTO productDTO);
@@ -30,7 +31,7 @@ public interface ProductService {
 
     List<Product> top5ProductRatting();
 
-    Product updateProduct(long id, ProductDTO productDTO);
+    ResponseEntity<?> updateProduct(long id, ProductDTO productDTO);
 
 
 }
